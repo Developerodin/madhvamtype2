@@ -218,7 +218,6 @@ Copy these into the new project (or re-export). Prefer WebP.
 | Entry gate (hero poster) | `assets/entry-gate-close.webp` | Hero / community |
 | Aerial / bird’s eye | `assets/cam-bird-eye.webp` | Story / gallery |
 | Brand brochure | `assets/madhavam-brochure.webp` | Quality / download teaser |
-| Decorative pattern | `assets/pattern-top-left.webp` | Optional chrome |
 | Site plan | `assets/earth-waves-site-plan/01.webp` | Plans gallery |
 | Landscape & amenity plan | `assets/ew-la-plan/01.webp` | Plans gallery |
 | Hero video | *(TODO — not shipped yet)* | Optional hero MP4 |
