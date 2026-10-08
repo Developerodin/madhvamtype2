@@ -112,7 +112,7 @@
       { category: "amenities", title: "Cricket Net Practice", caption: "Nets for an evening session.", png: "assets/Cricket Practice Courtyard.png", webp: "assets/cricket-practice-courtyard.webp" },
       { category: "amenities", title: "Yoga Lawn", caption: "An open lawn for morning practice." },
       { category: "amenities", title: "Pet Park", caption: "A corner of the garden for pets." },
-      { category: "amenities", title: "Indoor Games Room", caption: "Board games and indoor play." },
+      { category: "amenities", title: "Indoor Games Room", caption: "Board games and indoor play.", png: "assets/indoorGames Room .png" },
       { category: "amenities", title: "Toddler Play Area", caption: "A softer space for the smallest." },
       { category: "landscapes", title: "Hillside", caption: "Trees along the open ground.", png: "assets/Dark Green Hillside Tree Panorama.png", webp: "assets/dark-green-hillside-tree-panorama.webp", contain: true },
       { category: "landscapes", title: "Emerald Greens", caption: "A line of hills and trees.", png: "assets/Emerald Green Panoramic Landscape Outline.png", webp: "assets/emerald-green-panoramic-landscape-outline.webp", contain: true }
@@ -134,15 +134,25 @@
     }
 
     var galleryDesktop = window.matchMedia("(min-width: 1100px)");
-    var galleryLoopTimer = null;
+
+    function galleryHasMedia(slide) {
+      return !!(slide.png || slide.webp);
+    }
 
     function galleryMatches(slide, filter) {
       return slide.category === filter || slide.also === filter;
     }
 
+    function galleryFeature() {
+      for (var i = 0; i < gallerySlides.length; i++) {
+        if (gallerySlides[i].feature) return gallerySlides[i];
+      }
+      return null;
+    }
+
     function galleryPool(filter) {
       return gallerySlides.filter(function (slide) {
-        if (filter === "all") return !slide.feature;
+        if (filter === "all") return !slide.feature && galleryHasMedia(slide);
         return galleryMatches(slide, filter);
       });
     }
@@ -156,19 +166,7 @@
       return visible;
     }
 
-    function galleryView() {
-      if (galleryFilter === "all") {
-        var feature = null;
-        for (var i = 0; i < gallerySlides.length; i++) {
-          if (gallerySlides[i].feature) feature = gallerySlides[i];
-        }
-        var cards = galleryWindow(galleryPool("all"), galleryPage, 4);
-        return { layout: "mosaic", items: feature ? [feature].concat(cards) : cards };
-      }
-      return { layout: "grid", items: galleryWindow(galleryPool(galleryFilter), galleryPage, 4) };
-    }
-
-    function galleryCard(slide, feature) {
+    function galleryCard(slide, feature, hidden) {
       var media = "";
       if (slide.png || slide.webp) {
         var alt = galleryEscape(slide.title);
@@ -184,7 +182,7 @@
         ? '<p class="gallery-feature-title">' + title + "</p>"
         : '<p class="gallery-card-title">' + galleryEscape(slide.title) + "</p>" +
           (slide.caption ? '<p class="gallery-card-caption">' + galleryEscape(slide.caption) + "</p>" : "");
-      return '<article class="gallery-card' + (feature ? " gallery-feature" : "") + '">' +
+      return '<article class="gallery-card' + (feature ? " gallery-feature" : "") + '"' + (hidden ? ' aria-hidden="true"' : "") + ">" +
         '<div class="gallery-media">' + media + "</div>" +
         (feature ? galleryLeaf : "") +
         '<div class="gallery-caption">' + caption + "</div></article>";
@@ -194,69 +192,340 @@
       return galleryFilter === "all" && galleryDesktop.matches && !reduceMotion && document.visibilityState !== "hidden";
     }
 
+    function galleryTrack(cards) {
+      return cards.map(function (slide) {
+        return galleryCard(slide, false, false);
+      }).join("") + cards.map(function (slide) {
+        return galleryCard(slide, false, true);
+      }).join("");
+    }
+
     function renderGallery() {
-      var view = galleryView();
       var looping = galleryLooping();
       galleryStage.classList.toggle("is-looping", looping);
-      galleryStage.dataset.layout = view.layout;
-      var mosaic = galleryStage.querySelector(".gallery-mosaic");
-      var nextCards = view.items.filter(function (slide) { return !slide.feature; });
-      var currentCards = mosaic ? mosaic.querySelectorAll(".gallery-card:not(.gallery-feature)") : [];
-      if (looping && mosaic && currentCards.length === nextCards.length) {
-        currentCards.forEach(function (node, index) {
-          node.outerHTML = galleryCard(nextCards[index], false);
-        });
+      if (galleryFilter === "all") {
+        var feature = galleryFeature();
+        var cards = galleryPool("all");
+        if (looping && cards.length) {
+          galleryStage.dataset.layout = "marquee";
+          galleryStage.innerHTML = '<div class="gallery-mosaic is-marquee">' +
+            (feature ? galleryCard(feature, true, false) : "") +
+            '<div class="gallery-marquee"><div class="gallery-marquee-track">' +
+            galleryTrack(cards) +
+            "</div></div></div>";
+          return;
+        }
+        galleryStage.dataset.layout = "mosaic";
+        var visible = galleryWindow(cards, 0, 4);
+        var items = feature ? [feature].concat(visible) : visible;
+        galleryStage.innerHTML = '<div class="gallery-mosaic">' +
+          items.map(function (slide) {
+            return galleryCard(slide, !!slide.feature, false);
+          }).join("") +
+          "</div>";
         return;
       }
-      galleryStage.innerHTML = '<div class="gallery-' + view.layout + '">' +
-        view.items.map(function (slide) {
-          return galleryCard(slide, view.layout === "mosaic" && !!slide.feature);
+      galleryStage.dataset.layout = "grid";
+      galleryStage.innerHTML = '<div class="gallery-grid">' +
+        galleryWindow(galleryPool(galleryFilter), galleryPage, 4).map(function (slide) {
+          return galleryCard(slide, false, false);
         }).join("") +
         "</div>";
     }
 
-    function syncGalleryLoop() {
-      if (galleryLoopTimer) clearInterval(galleryLoopTimer);
-      galleryLoopTimer = null;
-      if (!galleryLooping()) return;
-      galleryLoopTimer = setInterval(function () {
-        galleryPage += 1;
-        renderGallery();
-      }, 5600);
+    function galleryPills() {
+      return Array.prototype.slice.call(document.querySelectorAll(".gallery-pill"));
     }
 
-    document.querySelectorAll(".gallery-pill").forEach(function (pill) {
+    function revealGalleryPill(item) {
+      var scroller = item.parentElement;
+      if (!scroller) return;
+      var viewLeft = scroller.scrollLeft;
+      var viewRight = viewLeft + scroller.clientWidth;
+      var itemLeft = item.offsetLeft;
+      var itemRight = itemLeft + item.offsetWidth;
+      if (itemLeft >= viewLeft && itemRight <= viewRight) return;
+      var left = itemLeft - (scroller.clientWidth - item.offsetWidth) / 2;
+      scroller.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+    }
+
+    function setGalleryFilter(filter) {
+      galleryFilter = filter || "all";
+      galleryPage = 0;
+      galleryPills().forEach(function (item) {
+        var on = (item.getAttribute("data-filter") || "all") === galleryFilter;
+        item.classList.toggle("is-active", on);
+        item.setAttribute("aria-pressed", on ? "true" : "false");
+        if (on) revealGalleryPill(item);
+      });
+      renderGallery();
+    }
+
+    galleryPills().forEach(function (pill) {
       pill.addEventListener("click", function () {
-        galleryFilter = pill.getAttribute("data-filter") || "all";
-        galleryPage = 0;
-        document.querySelectorAll(".gallery-pill").forEach(function (item) {
-          var on = item === pill;
-          item.classList.toggle("is-active", on);
-          item.setAttribute("aria-pressed", on ? "true" : "false");
-        });
-        renderGallery();
-        syncGalleryLoop();
+        setGalleryFilter(pill.getAttribute("data-filter") || "all");
       });
     });
 
     document.querySelectorAll("[data-gallery-dir]").forEach(function (button) {
       button.addEventListener("click", function () {
-        galleryPage += Number(button.getAttribute("data-gallery-dir")) || 0;
-        renderGallery();
-        syncGalleryLoop();
+        var pills = galleryPills();
+        if (!pills.length) return;
+        var index = 0;
+        pills.forEach(function (item, i) {
+          if ((item.getAttribute("data-filter") || "all") === galleryFilter) index = i;
+        });
+        var dir = Number(button.getAttribute("data-gallery-dir")) || 0;
+        var next = (index + dir + pills.length) % pills.length;
+        setGalleryFilter(pills[next].getAttribute("data-filter") || "all");
       });
     });
 
     if (galleryDesktop.addEventListener) {
-      galleryDesktop.addEventListener("change", function () {
-        renderGallery();
-        syncGalleryLoop();
-      });
+      galleryDesktop.addEventListener("change", renderGallery);
     }
-    document.addEventListener("visibilitychange", syncGalleryLoop);
+    document.addEventListener("visibilitychange", renderGallery);
 
     renderGallery();
-    syncGalleryLoop();
+  }
+
+  var arrival = document.getElementById("arrival");
+  var arrivalVideo = arrival && arrival.querySelector(".arrival-video");
+
+  if (arrival && arrivalVideo && !reduceMotion) {
+    var arrivalInView = false;
+    var arrivalPhase = "idle";
+    var arrivalTimers = [];
+
+    function clearArrivalTimers() {
+      arrivalTimers.forEach(clearTimeout);
+      arrivalTimers = [];
+    }
+
+    function afterArrival(fn, ms) {
+      arrivalTimers.push(window.setTimeout(fn, ms));
+    }
+
+    function playArrival() {
+      clearArrivalTimers();
+      arrivalPhase = "playing";
+      arrival.classList.remove("is-glimmer", "is-mark");
+      if (!arrivalInView) return;
+      var pending = arrivalVideo.play();
+      if (pending && pending.catch) pending.catch(function () {});
+    }
+
+    arrivalVideo.addEventListener("ended", function () {
+      if (arrivalPhase === "glimmer" || arrivalPhase === "mark") return;
+      arrivalPhase = "glimmer";
+      arrival.classList.add("is-glimmer");
+      afterArrival(function () {
+        arrivalPhase = "mark";
+        arrival.classList.add("is-mark");
+      }, 1200);
+      afterArrival(function () {
+        arrival.classList.remove("is-mark");
+      }, 4600);
+      afterArrival(function () {
+        arrival.classList.remove("is-glimmer");
+        arrivalVideo.currentTime = 0;
+        playArrival();
+      }, 5450);
+    });
+
+    if ("IntersectionObserver" in window) {
+      var arrivalWatch = new IntersectionObserver(function (entries) {
+        arrivalInView = entries[0].isIntersecting;
+        if (arrivalInView && arrivalPhase !== "glimmer" && arrivalPhase !== "mark" && arrivalVideo.paused) {
+          playArrival();
+        } else if (!arrivalInView && arrivalPhase === "playing") {
+          arrivalVideo.pause();
+        }
+      }, { threshold: 0.45 });
+      arrivalWatch.observe(arrival);
+    } else {
+      arrivalInView = true;
+      playArrival();
+    }
+  }
+
+  var locationMapOpen = document.getElementById("locationMapOpen");
+  var locationMapDialog = document.getElementById("locationMapDialog");
+  var locationMapStage = document.getElementById("locationMapStage");
+  var locationMapImg = document.getElementById("locationMapImg");
+
+  if (locationMapOpen && locationMapDialog && locationMapStage && locationMapImg && locationMapDialog.showModal) {
+    var mapScale = 1;
+    var panX = 0;
+    var panY = 0;
+    var mapPointers = new Map();
+    var mapDrag = null;
+    var mapPinch = null;
+    var mapMin = 1;
+    var mapMax = 5;
+
+    function applyMapTransform() {
+      locationMapImg.style.setProperty("--map-scale", String(mapScale));
+      locationMapImg.style.setProperty("--pan-x", panX + "px");
+      locationMapImg.style.setProperty("--pan-y", panY + "px");
+    }
+
+    function clampMapPan() {
+      var stageRect = locationMapStage.getBoundingClientRect();
+      var baseW = locationMapImg.offsetWidth;
+      var baseH = locationMapImg.offsetHeight;
+      var maxX = Math.max(0, (baseW * mapScale - stageRect.width) / 2);
+      var maxY = Math.max(0, (baseH * mapScale - stageRect.height) / 2);
+      panX = Math.max(-maxX, Math.min(maxX, panX));
+      panY = Math.max(-maxY, Math.min(maxY, panY));
+    }
+
+    function setMapScale(next, originX, originY) {
+      var prev = mapScale;
+      mapScale = Math.max(mapMin, Math.min(mapMax, next));
+      if (originX != null && originY != null && prev > 0) {
+        var ratio = mapScale / prev;
+        panX = originX - (originX - panX) * ratio;
+        panY = originY - (originY - panY) * ratio;
+      }
+      if (mapScale === mapMin) {
+        panX = 0;
+        panY = 0;
+      } else {
+        clampMapPan();
+      }
+      applyMapTransform();
+    }
+
+    function resetMapView() {
+      mapScale = 1;
+      panX = 0;
+      panY = 0;
+      applyMapTransform();
+    }
+
+    function stageOrigin(clientX, clientY) {
+      var rect = locationMapStage.getBoundingClientRect();
+      return {
+        x: clientX - rect.left - rect.width / 2,
+        y: clientY - rect.top - rect.height / 2
+      };
+    }
+
+    locationMapOpen.addEventListener("click", function () {
+      resetMapView();
+      locationMapOpen.setAttribute("aria-expanded", "true");
+      locationMapDialog.showModal();
+    });
+
+    locationMapDialog.addEventListener("close", function () {
+      locationMapOpen.setAttribute("aria-expanded", "false");
+      resetMapView();
+      locationMapOpen.focus();
+    });
+
+    locationMapDialog.addEventListener("click", function (event) {
+      if (event.target.closest("[data-map-close]")) {
+        locationMapDialog.close();
+        return;
+      }
+      var rect = locationMapDialog.getBoundingClientRect();
+      var inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      if (!inside) locationMapDialog.close();
+    });
+
+    locationMapDialog.querySelectorAll("[data-map-zoom]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var action = button.getAttribute("data-map-zoom");
+        if (action === "reset") {
+          resetMapView();
+          return;
+        }
+        setMapScale(mapScale * (action === "in" ? 1.25 : 0.8));
+      });
+    });
+
+    locationMapDialog.addEventListener("keydown", function (event) {
+      if (event.key === "+" || event.key === "=") {
+        event.preventDefault();
+        setMapScale(mapScale * 1.25);
+      } else if (event.key === "-" || event.key === "_") {
+        event.preventDefault();
+        setMapScale(mapScale / 1.25);
+      } else if (event.key === "0") {
+        event.preventDefault();
+        resetMapView();
+      }
+    });
+
+    locationMapStage.addEventListener("wheel", function (event) {
+      event.preventDefault();
+      var origin = stageOrigin(event.clientX, event.clientY);
+      var factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
+      setMapScale(mapScale * factor, origin.x, origin.y);
+    }, { passive: false });
+
+    locationMapStage.addEventListener("dblclick", function (event) {
+      event.preventDefault();
+      resetMapView();
+    });
+
+    function pinchDistance() {
+      var points = Array.from(mapPointers.values());
+      if (points.length < 2) return 0;
+      return Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+    }
+
+    locationMapStage.addEventListener("pointerdown", function (event) {
+      mapPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      locationMapStage.setPointerCapture(event.pointerId);
+      if (mapPointers.size === 1) {
+        mapPinch = null;
+        mapDrag = { x: event.clientX, y: event.clientY, ox: panX, oy: panY };
+        locationMapStage.classList.add("is-panning");
+      } else if (mapPointers.size === 2) {
+        mapDrag = null;
+        var mid = stageOrigin(
+          (Array.from(mapPointers.values())[0].x + Array.from(mapPointers.values())[1].x) / 2,
+          (Array.from(mapPointers.values())[0].y + Array.from(mapPointers.values())[1].y) / 2
+        );
+        mapPinch = { dist: pinchDistance(), scale: mapScale, x: mid.x, y: mid.y };
+      }
+    });
+
+    locationMapStage.addEventListener("pointermove", function (event) {
+      if (!mapPointers.has(event.pointerId)) return;
+      mapPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      if (mapPointers.size >= 2 && mapPinch && mapPinch.dist > 0) {
+        var dist = pinchDistance();
+        setMapScale(mapPinch.scale * (dist / mapPinch.dist), mapPinch.x, mapPinch.y);
+        return;
+      }
+      if (!mapDrag || mapScale <= 1) return;
+      panX = mapDrag.ox + (event.clientX - mapDrag.x);
+      panY = mapDrag.oy + (event.clientY - mapDrag.y);
+      clampMapPan();
+      applyMapTransform();
+    });
+
+    function endMapPointer(event) {
+      mapPointers.delete(event.pointerId);
+      if (mapPointers.size < 2) mapPinch = null;
+      if (mapPointers.size === 0) {
+        mapDrag = null;
+        locationMapStage.classList.remove("is-panning");
+      } else if (mapPointers.size === 1) {
+        var remaining = Array.from(mapPointers.values())[0];
+        mapDrag = { x: remaining.x, y: remaining.y, ox: panX, oy: panY };
+      }
+    }
+
+    locationMapStage.addEventListener("pointerup", endMapPointer);
+    locationMapStage.addEventListener("pointercancel", endMapPointer);
+
+    locationMapImg.addEventListener("dragstart", function (event) {
+      event.preventDefault();
+    });
   }
 
   var disclaimer = document.getElementById("footerDisclaimer");
