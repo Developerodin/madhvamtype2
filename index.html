@@ -15,14 +15,17 @@
   <script>document.documentElement.classList.replace("no-js","js")</script>
 </head>
 <body>
-  <a class="skip-link" href="#amenities">Skip to content</a>
+  <a class="skip-link" href="#gallery">Skip to content</a>
 
   <header class="site-header" id="siteHeader">
     <nav class="navbar navbar-expand-lg" aria-label="Primary">
       <div class="nav-bar">
         <a class="brand" href="#top">
           <span class="brand-slot">
-            <img src="assets/madhvamlog.webp" alt="" width="1760" height="894" data-alt="Madhavam" data-brand>
+            <picture>
+              <source srcset="assets/radhe-radhe-madhavam-logo.webp" type="image/webp">
+              <img src="assets/Radhe%20Radhe%20Madhavam%20Logo.png" alt="" width="1759" height="894" data-alt="Radhe Radhe Madhavam" data-brand>
+            </picture>
             <span class="brand-fallback brand-name">Madhavam</span>
           </span>
         </a>
@@ -32,6 +35,7 @@
         </button>
         <div class="collapse navbar-collapse" id="siteNav">
           <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
             <li class="nav-item"><a class="nav-link" href="#amenities">Amenities</a></li>
             <li class="nav-item"><a class="nav-link" href="#quality">Quality</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -57,6 +61,145 @@
         <div class="hero-actions">
           <a class="btn btn-hero" href="#contact">Enquire Now</a>
           <a class="btn btn-hero btn-hero-ghost" href="#contact">Book a Site Visit</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper band gallery" id="gallery">
+      <div class="sheet">
+        <div class="gallery-head reveal">
+          <div class="gallery-copy">
+            <p class="gallery-kicker">Gallery</p>
+            <h2 class="gallery-title"><span class="gallery-title-line">A Glimpse of</span> <span class="gallery-title-name">Madhavam</span></h2>
+            <p class="gallery-intro">Explore the thoughtfully designed spaces, green landscapes and modern amenities that make Madhavam a place to live, grow and belong.</p>
+          </div>
+          <ul class="gallery-highlights">
+            <li>
+              <span class="gallery-ico gallery-ico-leaf" aria-hidden="true"></span>
+              <span>Green Surroundings</span>
+            </li>
+            <li>
+              <span class="gallery-ico gallery-ico-house" aria-hidden="true"></span>
+              <span>Modern Living</span>
+            </li>
+            <li>
+              <span class="gallery-ico gallery-ico-users" aria-hidden="true"></span>
+              <span>Vibrant Community</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="gallery-toolbar reveal">
+          <div class="gallery-pills" role="group" aria-label="Gallery categories">
+            <button type="button" class="gallery-pill is-active" data-filter="all" aria-pressed="true">
+              <span class="gallery-ico gallery-ico-image" aria-hidden="true"></span>
+              All
+            </button>
+            <button type="button" class="gallery-pill" data-filter="aerial" aria-pressed="false">
+              <span class="gallery-ico gallery-ico-drone" aria-hidden="true"></span>
+              Aerial View
+            </button>
+            <button type="button" class="gallery-pill" data-filter="amenities" aria-pressed="false">
+              <span class="gallery-ico gallery-ico-megaphone" aria-hidden="true"></span>
+              Amenities
+            </button>
+            <button type="button" class="gallery-pill" data-filter="landscapes" aria-pressed="false">
+              <span class="gallery-ico gallery-ico-tree" aria-hidden="true"></span>
+              Landscapes
+            </button>
+            <button type="button" class="gallery-pill" data-filter="clubhouse" aria-pressed="false">
+              <span class="gallery-ico gallery-ico-buildings" aria-hidden="true"></span>
+              Clubhouse
+            </button>
+            <button type="button" class="gallery-pill" data-filter="roads" aria-pressed="false">
+              <span class="gallery-ico gallery-ico-path" aria-hidden="true"></span>
+              Internal Roads
+            </button>
+          </div>
+          <div class="gallery-arrows">
+            <button type="button" class="gallery-arrow" data-gallery-dir="-1" aria-label="Previous photos">
+              <span class="gallery-ico gallery-ico-caret-left" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="gallery-arrow" data-gallery-dir="1" aria-label="Next photos">
+              <span class="gallery-ico gallery-ico-caret-right" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="gallery-stage reveal" id="galleryStage" data-layout="mosaic" aria-live="polite">
+          <div class="gallery-mosaic">
+            <article class="gallery-card gallery-feature">
+              <div class="gallery-media">
+                <picture>
+                  <source srcset="assets/residential-aerial-view.webp" type="image/webp">
+                  <img src="assets/Residential%20Aerial%20View.png" alt="A planned community amidst nature">
+                </picture>
+              </div>
+              <svg class="gallery-leaf" viewBox="0 0 72 118" aria-hidden="true">
+                <g fill="none" stroke="currentColor" stroke-width="1.15">
+                  <path d="M36 108c0-28-14-42-18-68"/>
+                  <path d="M18 40c10-2 18 10 18 24"/>
+                  <path d="M36 86c16-8 28-22 24-40"/>
+                  <path d="M60 46c-10 2-18 14-20 26"/>
+                  <path d="M34 98c-12-4-22-16-20-30"/>
+                  <path d="M14 68c8 2 14 10 16 18"/>
+                  <path d="M36 70c8-18 8-32 2-44"/>
+                  <path d="M38 26c6 8 8 18 6 28"/>
+                </g>
+              </svg>
+              <div class="gallery-caption">
+                <p class="gallery-feature-title">A Planned<br>Community<br>Amidst Nature</p>
+              </div>
+            </article>
+            <article class="gallery-card">
+              <div class="gallery-media">
+                <picture>
+                  <source srcset="assets/golden-hour-luxury-garden-pavilion.webp" type="image/webp">
+                  <img src="assets/Golden-Hour%20Luxury%20Garden%20Pavilion.png" alt="Clubhouse">
+                </picture>
+              </div>
+              <div class="gallery-caption">
+                <p class="gallery-card-title">Clubhouse</p>
+                <p class="gallery-card-caption">Relax. Reconnect. Belong.</p>
+              </div>
+            </article>
+            <article class="gallery-card">
+              <div class="gallery-media">
+                <picture>
+                  <source srcset="assets/playground-oasis.webp" type="image/webp">
+                  <img src="assets/Playground%20Oasis.png" alt="Kids play area">
+                </picture>
+              </div>
+              <div class="gallery-caption">
+                <p class="gallery-card-title">Kids Play Area</p>
+                <p class="gallery-card-caption">A Safer, Happier Tomorrow</p>
+              </div>
+            </article>
+            <article class="gallery-card">
+              <div class="gallery-media">
+                <picture>
+                  <source srcset="assets/street.webp" type="image/webp">
+                  <img src="assets/%20Street.png" alt="Internal roads">
+                </picture>
+              </div>
+              <div class="gallery-caption">
+                <p class="gallery-card-title">Internal Roads</p>
+                <p class="gallery-card-caption">Wide. Well Planned. Serene.</p>
+              </div>
+            </article>
+            <article class="gallery-card">
+              <div class="gallery-media">
+                <picture>
+                  <source srcset="assets/courtyard.webp" type="image/webp">
+                  <img src="assets/%20Courtyard.png" alt="Landscape">
+                </picture>
+              </div>
+              <div class="gallery-caption">
+                <p class="gallery-card-title">Landscape</p>
+                <p class="gallery-card-caption">Green Spaces for a Healthier Life.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -192,6 +335,15 @@
 
   <footer class="site-footer" id="footer">
     <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="footer-logo" href="#top">
+          <picture>
+            <source srcset="assets/radhe-radhe-madhavam-logo.webp" type="image/webp">
+            <img src="assets/Radhe%20Radhe%20Madhavam%20Logo.png" alt="Radhe Radhe Madhavam" width="1759" height="894">
+          </picture>
+        </a>
+      </div>
+
       <div class="footer-contacts">
         <p><strong>Corporate Office:</strong> G1, South Extension, Block G, South Extension II, New Delhi, Delhi 110049</p>
         <p><strong>Site Address:</strong> KH. No.385M, 386M, Bhowapur, Raj Nagar Extension, Ghaziabad, Uttar Pradesh, 201017</p>
