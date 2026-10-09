@@ -2202,6 +2202,8 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 }
 
 @media (max-width: 767px) {
+  .footer-links .sep { display: none; }
+
   .band { padding: 3.25rem 0; }
 
   .developer { margin-top: 2.75rem; }
