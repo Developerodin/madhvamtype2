@@ -1140,7 +1140,7 @@ p { margin: 0 0 1rem; }
 .pillar-grid h3 {
   margin-bottom: 0.55rem;
   font-size: 2.25rem;
-  color: #0E4A32;
+  color: var(--burgundy);
 }
 
 .pillar-arrow {
