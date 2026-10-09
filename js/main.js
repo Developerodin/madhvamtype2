@@ -298,24 +298,304 @@
 
   var arrival = document.getElementById("arrival");
   var arrivalVideo = arrival && arrival.querySelector(".arrival-video");
+  var arrivalOverlay = arrival && arrival.querySelector(".arrival-overlay");
+  var arrivalTimeline = null;
 
-  if (arrival && arrivalVideo && !reduceMotion) {
-    function playArrival() {
-      var pending = arrivalVideo.play();
-      if (pending && pending.catch) pending.catch(function () {});
+  function playArrivalVideo() {
+    if (!arrivalVideo || reduceMotion) return;
+    var pending = arrivalVideo.play();
+    if (pending && pending.catch) pending.catch(function () {});
+  }
+
+  function pauseArrivalVideo() {
+    if (!arrivalVideo) return;
+    arrivalVideo.pause();
+  }
+
+  function isArrivalMobile() {
+    return window.matchMedia("(max-width: 767.98px)").matches;
+  }
+
+  function buildArrivalDesktopTimeline(words, rule, items) {
+    var tl = gsap.timeline({
+      paused: true,
+      repeat: -1,
+      defaults: { ease: "power3.out" }
+    });
+
+    gsap.set(words, { opacity: 0, y: 28, filter: "blur(8px)", clearProps: "position,left,right,top" });
+    if (rule) gsap.set(rule, { opacity: 0, scaleX: 0 });
+    gsap.set(items, { opacity: 0, y: 42, filter: "blur(10px)", clearProps: "position,left,right,top" });
+
+    tl.to(words, {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.85,
+      stagger: 0.08,
+      ease: "power3.out"
+    }, 0.15);
+
+    if (rule) {
+      tl.to(rule, {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.7,
+        ease: "power2.out"
+      }, "-=0.35");
+    }
+
+    tl.to(items, {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.75,
+      stagger: 1.05,
+      ease: "power3.out"
+    }, "-=0.15");
+
+    tl.to({}, { duration: 2.8 });
+
+    tl.to(items, {
+      opacity: 0,
+      y: -18,
+      filter: "blur(6px)",
+      duration: 0.55,
+      stagger: { each: 0.07, from: "end" },
+      ease: "power2.in"
+    });
+
+    if (rule) {
+      tl.to(rule, {
+        opacity: 0,
+        scaleX: 0,
+        duration: 0.4,
+        ease: "power2.in"
+      }, "-=0.35");
+    }
+
+    tl.to(words, {
+      opacity: 0,
+      y: -14,
+      filter: "blur(6px)",
+      duration: 0.5,
+      stagger: { each: 0.04, from: "end" },
+      ease: "power2.in"
+    }, "-=0.3");
+
+    tl.to({}, { duration: 0.55 });
+
+    return tl;
+  }
+
+  function buildArrivalMobileTimeline(words, rule, items) {
+    var tl = gsap.timeline({
+      paused: true,
+      repeat: -1,
+      defaults: { ease: "power3.out" }
+    });
+    var pairGapEm = 3.2;
+    var pairSize = 2;
+    var i;
+    var pairIndex = 0;
+    var lastPair = [];
+
+    gsap.set(words, { opacity: 0, y: 22, filter: "blur(8px)" });
+    if (rule) gsap.set(rule, { opacity: 0, scaleX: 0 });
+    gsap.set(items, {
+      opacity: 0,
+      y: "1.6em",
+      filter: "blur(10px)",
+      position: "absolute",
+      left: 0,
+      right: 0,
+      top: 0
+    });
+
+    tl.to(words, {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.75,
+      stagger: 0.07,
+      ease: "power3.out"
+    }, 0.12);
+
+    if (rule) {
+      tl.to(rule, {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.6,
+        ease: "power2.out"
+      }, "-=0.3");
+    }
+
+    for (i = 0; i < items.length; i += pairSize) {
+      var pair = [];
+      var prevPair = [];
+      var p;
+      for (p = 0; p < pairSize && i + p < items.length; p++) {
+        pair.push(items[i + p]);
+      }
+      lastPair = pair;
+
+      if (pairIndex > 0) {
+        for (p = 0; p < pairSize && i - pairSize + p < i; p++) {
+          prevPair.push(items[i - pairSize + p]);
+        }
+        tl.to(prevPair, {
+          opacity: 0,
+          y: "-1.4em",
+          filter: "blur(7px)",
+          duration: 0.9,
+          stagger: 0.06,
+          ease: "power2.inOut"
+        }, ">+0.2");
+      }
+
+      for (p = 0; p < pair.length; p++) {
+        var slotY = (p * pairGapEm) + "em";
+        var fromY = (p * pairGapEm + 1.5) + "em";
+        var enterAt = pairIndex === 0 && p === 0
+          ? "-=0.05"
+          : p === 0
+            ? "<+=0.18"
+            : "<+=0.1";
+
+        tl.fromTo(pair[p], {
+          opacity: 0,
+          y: fromY,
+          filter: "blur(10px)"
+        }, {
+          opacity: 1,
+          y: slotY,
+          filter: "blur(0px)",
+          duration: 0.8,
+          ease: "power3.out"
+        }, enterAt);
+      }
+
+      tl.to({}, { duration: 1.45 });
+      pairIndex += 1;
+    }
+
+    tl.to({}, { duration: 0.55 });
+
+    tl.to(lastPair, {
+      opacity: 0,
+      y: "-=1.1em",
+      filter: "blur(6px)",
+      duration: 0.6,
+      stagger: 0.06,
+      ease: "power2.in"
+    });
+
+    if (rule) {
+      tl.to(rule, {
+        opacity: 0,
+        scaleX: 0,
+        duration: 0.4,
+        ease: "power2.in"
+      }, "-=0.3");
+    }
+
+    tl.to(words, {
+      opacity: 0,
+      y: -12,
+      filter: "blur(6px)",
+      duration: 0.5,
+      stagger: { each: 0.04, from: "end" },
+      ease: "power2.in"
+    }, "-=0.3");
+
+    tl.to({}, { duration: 0.5 });
+
+    return tl;
+  }
+
+  function buildArrivalTimeline() {
+    if (!arrival || !window.gsap || reduceMotion) return null;
+
+    var words = arrival.querySelectorAll(".arrival-word");
+    var rule = arrival.querySelector(".arrival-title-rule");
+    var items = arrival.querySelectorAll(".arrival-benefits li");
+    if (!words.length || !items.length) return null;
+
+    if (isArrivalMobile()) {
+      return buildArrivalMobileTimeline(words, rule, items);
+    }
+    return buildArrivalDesktopTimeline(words, rule, items);
+  }
+
+  function destroyArrivalTimeline() {
+    if (!arrivalTimeline) return;
+    arrivalTimeline.kill();
+    arrivalTimeline = null;
+  }
+
+  function initArrivalTimeline(shouldPlay) {
+    destroyArrivalTimeline();
+    if (!arrival || reduceMotion || window.__gsapFailed || !window.gsap || !arrivalOverlay) {
+      return;
+    }
+    try {
+      arrivalTimeline = buildArrivalTimeline();
+    } catch (err) {
+      arrivalTimeline = null;
+    }
+    if (!arrivalTimeline) {
+      arrival.classList.add("arrival--no-overlay");
+      return;
+    }
+    arrival.classList.remove("arrival--no-overlay");
+    if (shouldPlay) arrivalTimeline.play(0);
+  }
+
+  if (arrival) {
+    var arrivalInView = false;
+
+    if (reduceMotion) {
+      arrival.classList.add("arrival--static");
+    } else if (window.__gsapFailed || !window.gsap || !arrivalOverlay) {
+      arrival.classList.add("arrival--no-overlay");
+    } else {
+      initArrivalTimeline(false);
+    }
+
+    function onArrivalEnter() {
+      arrivalInView = true;
+      playArrivalVideo();
+      if (arrivalTimeline) {
+        if (arrivalTimeline.paused()) arrivalTimeline.play();
+      }
+    }
+
+    function onArrivalLeave() {
+      arrivalInView = false;
+      pauseArrivalVideo();
+      if (arrivalTimeline) arrivalTimeline.pause();
     }
 
     if ("IntersectionObserver" in window) {
       var arrivalWatch = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) {
-          if (arrivalVideo.paused) playArrival();
-        } else {
-          arrivalVideo.pause();
-        }
+        if (entries[0].isIntersecting) onArrivalEnter();
+        else onArrivalLeave();
       }, { threshold: 0.45 });
       arrivalWatch.observe(arrival);
-    } else {
-      playArrival();
+    } else if (!reduceMotion) {
+      onArrivalEnter();
+    }
+
+    if (!reduceMotion && window.gsap && arrivalOverlay) {
+      var arrivalMobileQuery = window.matchMedia("(max-width: 767.98px)");
+      var onArrivalBreakpoint = function () {
+        initArrivalTimeline(arrivalInView);
+      };
+      if (arrivalMobileQuery.addEventListener) {
+        arrivalMobileQuery.addEventListener("change", onArrivalBreakpoint);
+      } else if (arrivalMobileQuery.addListener) {
+        arrivalMobileQuery.addListener(onArrivalBreakpoint);
+      }
     }
   }
 
