@@ -38,6 +38,7 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
             <li class="nav-item"><a class="nav-link" href="#location">Location</a></li>
+            <li class="nav-item"><a class="nav-link" href="#site-plan">Site Plan</a></li>
             <li class="nav-item"><a class="nav-link" href="#quality">Quality</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
           </ul>
@@ -336,6 +337,52 @@
         </div>
         <div class="map-dialog-stage" id="locationMapStage">
           <img id="locationMapImg" src="assets/Screenshot%202026-10-08%20at%205.37.51%E2%80%AFPM.png" alt="Connectivity map showing Madhavam near Harnandipuram, Hindon Airport, Meerut Road, and nearby landmarks" draggable="false">
+        </div>
+      </dialog>
+    </section>
+
+    <section class="site-plan band" id="site-plan">
+      <div class="sheet">
+        <div class="site-plan-head reveal">
+          <p class="site-plan-kicker">Master Layout</p>
+          <h2 class="site-plan-title">
+            <span class="site-plan-title-line">Site</span> <span class="site-plan-title-accent">Plan</span>
+          </h2>
+          <div class="site-plan-arrows" aria-hidden="true">
+            <span class="pillar-arrow pillar-arrow--flip"></span>
+            <span class="pillar-arrow"></span>
+          </div>
+          <p class="site-plan-intro">Explore the thoughtfully planned layout, designed for modern living and a well-connected community.</p>
+          <div class="site-plan-tabs" role="tablist" aria-label="Site plan types">
+            <button type="button" class="site-plan-tab is-active" role="tab" id="sitePlanTabLayout" aria-selected="true" aria-controls="sitePlanPanelLayout" data-plan-tab="layout">Layout Plan</button>
+            <button type="button" class="site-plan-tab" role="tab" id="sitePlanTabInfra" aria-selected="false" aria-controls="sitePlanPanelInfra" data-plan-tab="infra" tabindex="-1">Infrastructure Plan</button>
+          </div>
+        </div>
+
+        <div class="site-plan-panels">
+          <div class="site-plan-panel is-active" role="tabpanel" id="sitePlanPanelLayout" aria-labelledby="sitePlanTabLayout">
+            <button type="button" class="site-plan-open" data-plan-src="assets/earth-waves-site-plan/Colourful%20Greenfield%20Plot%20Layout%20Map.png" data-plan-alt="Colourful Greenfield plot layout map showing numbered residential plots, amenities, and commercial area" aria-haspopup="dialog" aria-controls="sitePlanLightbox">
+              <span class="site-plan-frame">
+                <img src="assets/earth-waves-site-plan/Colourful%20Greenfield%20Plot%20Layout%20Map.png" alt="Colourful Greenfield plot layout map showing numbered residential plots, amenities, and commercial area" width="1120" height="1404" loading="lazy">
+              </span>
+              <span class="visually-hidden">Open layout plan fullscreen</span>
+            </button>
+          </div>
+          <div class="site-plan-panel" role="tabpanel" id="sitePlanPanelInfra" aria-labelledby="sitePlanTabInfra" hidden>
+            <button type="button" class="site-plan-open" data-plan-src="assets/ew-la-plan/01.webp" data-plan-alt="Infrastructure plan for Madhavam showing roads, utilities, and site services layout" aria-haspopup="dialog" aria-controls="sitePlanLightbox">
+              <span class="site-plan-frame">
+                <img src="assets/ew-la-plan/01.webp" alt="Infrastructure plan for Madhavam showing roads, utilities, and site services layout" width="1357" height="1920" loading="lazy">
+              </span>
+              <span class="visually-hidden">Open infrastructure plan fullscreen</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <dialog class="plan-lightbox" id="sitePlanLightbox" aria-label="Site plan fullscreen view">
+        <button type="button" class="plan-lightbox-close" data-plan-close aria-label="Close site plan">Close</button>
+        <div class="plan-lightbox-stage" id="sitePlanLightboxStage">
+          <img id="sitePlanLightboxImg" alt="" draggable="false">
         </div>
       </dialog>
     </section>

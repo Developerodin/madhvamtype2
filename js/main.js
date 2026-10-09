@@ -856,4 +856,257 @@
       disclaimerToggle.textContent = collapsed ? "Read less" : "Read more";
     });
   }
+
+  /* Site plan tabs + lightweight lightbox */
+  (function initSitePlan() {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll(".site-plan-tab"));
+    var panels = Array.prototype.slice.call(document.querySelectorAll(".site-plan-panel"));
+    var lightbox = document.getElementById("sitePlanLightbox");
+    var stage = document.getElementById("sitePlanLightboxStage");
+    var img = document.getElementById("sitePlanLightboxImg");
+    if (!tabs.length || !panels.length) return;
+
+    function activatePlanTab(tab) {
+      if (!tab) return;
+      var panelId = tab.getAttribute("aria-controls");
+      tabs.forEach(function (item) {
+        var on = item === tab;
+        item.classList.toggle("is-active", on);
+        item.setAttribute("aria-selected", on ? "true" : "false");
+        item.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach(function (panel) {
+        var on = panel.id === panelId;
+        panel.classList.toggle("is-active", on);
+        panel.hidden = !on;
+      });
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        activatePlanTab(tab);
+      });
+      tab.addEventListener("keydown", function (event) {
+        var index = tabs.indexOf(tab);
+        var next = -1;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") next = 0;
+        if (event.key === "End") next = tabs.length - 1;
+        if (next < 0) return;
+        event.preventDefault();
+        tabs[next].focus();
+        activatePlanTab(tabs[next]);
+      });
+    });
+
+    if (!lightbox || !stage || !img || !lightbox.showModal) return;
+
+    var planScale = 1;
+    var planX = 0;
+    var planY = 0;
+    var planMin = 1;
+    var planMax = 4;
+    var pointers = new Map();
+    var pinchStartDist = 0;
+    var pinchStartScale = 1;
+    var panLastX = 0;
+    var panLastY = 0;
+    var pointerDownX = 0;
+    var pointerDownY = 0;
+    var lastTapAt = 0;
+    var lastTapX = 0;
+    var lastTapY = 0;
+    var scrollLockY = 0;
+    var scrollLocked = false;
+
+    function applyPlanTransform() {
+      img.style.setProperty("--plan-scale", String(planScale));
+      img.style.setProperty("--plan-x", planX + "px");
+      img.style.setProperty("--plan-y", planY + "px");
+    }
+
+    function resetPlanTransform() {
+      planScale = 1;
+      planX = 0;
+      planY = 0;
+      applyPlanTransform();
+    }
+
+    function lockPageScroll() {
+      if (scrollLocked) return;
+      scrollLocked = true;
+      scrollLockY = window.scrollY || window.pageYOffset || 0;
+      document.documentElement.classList.add("plan-lightbox-open");
+      document.body.classList.add("plan-lightbox-open");
+      document.body.style.top = "-" + scrollLockY + "px";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+    }
+
+    function unlockPageScroll() {
+      if (!scrollLocked) return;
+      scrollLocked = false;
+      document.documentElement.classList.remove("plan-lightbox-open");
+      document.body.classList.remove("plan-lightbox-open");
+      document.body.style.top = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollLockY);
+    }
+
+    function stageOrigin(clientX, clientY) {
+      var rect = stage.getBoundingClientRect();
+      return {
+        x: clientX - (rect.left + rect.width / 2),
+        y: clientY - (rect.top + rect.height / 2)
+      };
+    }
+
+    function setPlanScale(next, origin) {
+      var prev = planScale;
+      planScale = Math.min(planMax, Math.max(planMin, next));
+      if (planScale <= 1.01) {
+        resetPlanTransform();
+        return;
+      }
+      if (origin && prev > 0) {
+        var ratio = planScale / prev;
+        planX = origin.x - (origin.x - planX) * ratio;
+        planY = origin.y - (origin.y - planY) * ratio;
+      }
+      applyPlanTransform();
+    }
+
+    function togglePlanZoom(clientX, clientY) {
+      if (planScale > 1.05) {
+        resetPlanTransform();
+        return;
+      }
+      var origin = stageOrigin(clientX, clientY);
+      planScale = 2;
+      planX = -origin.x;
+      planY = -origin.y;
+      applyPlanTransform();
+    }
+
+    function pointerDistance() {
+      if (pointers.size < 2) return 0;
+      var pts = Array.prototype.slice.call(pointers.values());
+      var dx = pts[0].x - pts[1].x;
+      var dy = pts[0].y - pts[1].y;
+      return Math.hypot(dx, dy);
+    }
+
+    document.querySelectorAll(".site-plan-open").forEach(function (button) {
+      button.addEventListener("click", function () {
+        img.src = button.getAttribute("data-plan-src") || "";
+        img.alt = button.getAttribute("data-plan-alt") || "";
+        resetPlanTransform();
+        lockPageScroll();
+        lightbox.showModal();
+      });
+    });
+
+    function closePlanLightbox() {
+      if (lightbox.open) lightbox.close();
+    }
+
+    lightbox.querySelectorAll("[data-plan-close]").forEach(function (button) {
+      button.addEventListener("click", closePlanLightbox);
+    });
+
+    lightbox.addEventListener("close", function () {
+      resetPlanTransform();
+      pointers.clear();
+      img.removeAttribute("src");
+      img.alt = "";
+      unlockPageScroll();
+    });
+
+    lightbox.addEventListener("click", function (event) {
+      if (event.target === lightbox) closePlanLightbox();
+    });
+
+    stage.addEventListener("click", function (event) {
+      if (event.target === stage && planScale <= 1.01) closePlanLightbox();
+    });
+
+    stage.addEventListener("dblclick", function (event) {
+      event.preventDefault();
+      togglePlanZoom(event.clientX, event.clientY);
+    });
+
+    stage.addEventListener("wheel", function (event) {
+      event.preventDefault();
+      var origin = stageOrigin(event.clientX, event.clientY);
+      var factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
+      setPlanScale(planScale * factor, origin);
+    }, { passive: false });
+
+    stage.addEventListener("pointerdown", function (event) {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      stage.setPointerCapture(event.pointerId);
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      if (pointers.size === 2) {
+        pinchStartDist = pointerDistance();
+        pinchStartScale = planScale;
+      } else if (pointers.size === 1) {
+        pointerDownX = event.clientX;
+        pointerDownY = event.clientY;
+        panLastX = event.clientX;
+        panLastY = event.clientY;
+      }
+    });
+
+    stage.addEventListener("pointermove", function (event) {
+      if (!pointers.has(event.pointerId)) return;
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      if (pointers.size === 2 && pinchStartDist > 0) {
+        var dist = pointerDistance();
+        if (!dist) return;
+        setPlanScale(pinchStartScale * (dist / pinchStartDist));
+        return;
+      }
+      if (pointers.size === 1 && planScale > 1.01) {
+        planX += event.clientX - panLastX;
+        planY += event.clientY - panLastY;
+        panLastX = event.clientX;
+        panLastY = event.clientY;
+        applyPlanTransform();
+      }
+    });
+
+    function endPlanPointer(event) {
+      if (!pointers.has(event.pointerId)) return;
+      var moved = Math.hypot(event.clientX - pointerDownX, event.clientY - pointerDownY);
+      var wasTap = pointers.size === 1 && planScale <= 1.01 && moved < 12;
+      var tapX = event.clientX;
+      var tapY = event.clientY;
+      pointers.delete(event.pointerId);
+      if (pointers.size < 2) pinchStartDist = 0;
+      if (pointers.size === 1) {
+        var remaining = pointers.values().next().value;
+        panLastX = remaining.x;
+        panLastY = remaining.y;
+      }
+      if (!wasTap || event.pointerType === "mouse") return;
+      var now = Date.now();
+      if (now - lastTapAt < 320 && Math.hypot(tapX - lastTapX, tapY - lastTapY) < 28) {
+        togglePlanZoom(tapX, tapY);
+        lastTapAt = 0;
+      } else {
+        lastTapAt = now;
+        lastTapX = tapX;
+        lastTapY = tapY;
+      }
+    }
+
+    stage.addEventListener("pointerup", endPlanPointer);
+    stage.addEventListener("pointercancel", endPlanPointer);
+
+    img.addEventListener("dragstart", function (event) {
+      event.preventDefault();
+    });
+  })();
 })();
