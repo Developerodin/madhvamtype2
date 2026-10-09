@@ -124,13 +124,10 @@
       { category: "amenities", title: "Yoga Lawn", caption: "An open lawn for morning practice." },
       { category: "amenities", title: "Pet Park", caption: "A corner of the garden for pets." },
       { category: "amenities", title: "Indoor Games Room", caption: "Board games and indoor play.", png: "assets/indoorGames Room .png" },
-      { category: "amenities", title: "Toddler Play Area", caption: "A softer space for the smallest." },
-      { category: "landscapes", title: "Hillside", caption: "Trees along the open ground.", png: "assets/Dark Green Hillside Tree Panorama.png", webp: "assets/dark-green-hillside-tree-panorama.webp", contain: true },
-      { category: "landscapes", title: "Emerald Greens", caption: "A line of hills and trees.", png: "assets/Emerald Green Panoramic Landscape Outline.png", webp: "assets/emerald-green-panoramic-landscape-outline.webp", contain: true }
+      { category: "amenities", title: "Toddler Play Area", caption: "A softer space for the smallest." }
     ];
     var galleryLeaf = '<svg class="gallery-leaf" viewBox="0 0 72 118" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.15"><path d="M36 108c0-28-14-42-18-68"/><path d="M18 40c10-2 18 10 18 24"/><path d="M36 86c16-8 28-22 24-40"/><path d="M60 46c-10 2-18 14-20 26"/><path d="M34 98c-12-4-22-16-20-30"/><path d="M14 68c8 2 14 10 16 18"/><path d="M36 70c8-18 8-32 2-44"/><path d="M38 26c6 8 8 18 6 28"/></g></svg>';
     var galleryFilter = "all";
-    var galleryPage = 0;
 
     function galleryEscape(value) {
       return String(value).replace(/[&<>"']/g, function (ch) {
@@ -238,7 +235,7 @@
       }
       galleryStage.dataset.layout = "grid";
       galleryStage.innerHTML = '<div class="gallery-grid">' +
-        galleryWindow(galleryPool(galleryFilter), galleryPage, 4).map(function (slide) {
+        galleryPool(galleryFilter).filter(galleryHasMedia).map(function (slide) {
           return galleryCard(slide, false, false);
         }).join("") +
         "</div>";
@@ -262,7 +259,6 @@
 
     function setGalleryFilter(filter) {
       galleryFilter = filter || "all";
-      galleryPage = 0;
       galleryPills().forEach(function (item) {
         var on = (item.getAttribute("data-filter") || "all") === galleryFilter;
         item.classList.toggle("is-active", on);

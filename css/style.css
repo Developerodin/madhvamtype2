@@ -71,6 +71,9 @@ p { margin: 0 0 1rem; }
 
 .band { padding: 6.5rem 0; }
 
+/* Adjacent cream bands share one background, so stacked padding reads as a double gap. */
+.paper.band + .paper.band { padding-top: 0; }
+
 .band h2 {
   font-size: clamp(3rem, 6vw, 4.125rem);
 }
@@ -923,6 +926,17 @@ p { margin: 0 0 1rem; }
   min-width: 0;
 }
 
+.quality-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+}
+
+.quality-head h2 { margin-bottom: 1rem; }
+
+.quality-landscape { display: none; }
+
 .quality-lead { color: #0E4A32; }
 
 .quality-accent { color: var(--gold); }
@@ -970,6 +984,20 @@ p { margin: 0 0 1rem; }
   height: auto;
   margin-top: auto;
   object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .pillar-grid article:nth-child(3) .pillar-mark,
+  .pillar-grid article:nth-child(4) .pillar-mark {
+    transform: scaleX(-1);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .pillar-grid article:nth-child(2) .pillar-mark,
+  .pillar-grid article:nth-child(4) .pillar-mark {
+    transform: scaleX(-1);
+  }
 }
 
 @media (min-width: 992px) {
@@ -1282,6 +1310,13 @@ p { margin: 0 0 1rem; }
   outline-offset: 4px;
 }
 
+.location-horizon {
+  display: block;
+  width: min(1080px, calc(100% - 2.5rem));
+  height: auto;
+  margin: 2.5rem auto 0;
+}
+
 .map-dialog {
   width: min(1120px, calc(100vw - 2rem));
   height: min(860px, calc(100dvh - 2rem));
@@ -1383,13 +1418,13 @@ p { margin: 0 0 1rem; }
   .loc-item-right { justify-content: flex-start; }
 
   .location-col .loc-item:nth-child(odd) .loc-line {
-    flex: 0 0 4.75rem;
-    width: 6.75rem;
+    flex: 0 0 9.5rem;
+    width: 13.5rem;
   }
 
   .location-col .loc-item:nth-child(even) .loc-line {
-    flex: 0 0 2.75rem;
-    width: 2.75rem;
+    flex: 0 0 5.5rem;
+    width: 5.5rem;
   }
 }
 
@@ -1437,8 +1472,49 @@ p { margin: 0 0 1rem; }
   }
 }
 
+/* Phones: hills sit between the map and the location points. */
+@media (max-width: 767.98px) {
+  .location.band {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.5rem;
+    row-gap: 1.35rem;
+    padding-inline: 1.25rem;
+  }
+
+  .location .sheet,
+  .location-board {
+    display: contents;
+  }
+
+  .js .location-board.reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .location h2.location-title {
+    grid-column: 1 / -1;
+    order: 0;
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+
+  .location-map { order: 1; }
+
+  .location-horizon {
+    grid-column: 1 / -1;
+    order: 2;
+    width: min(100%, 36rem);
+    margin: 0.15rem auto;
+    justify-self: center;
+  }
+
+  .loc-item { order: 3; }
+}
+
 @media (max-width: 575.98px) {
   .pillar-mark {max-width: 75%; align-self:flex-end ;}
+  .location.band,
   .location-board { grid-template-columns: 1fr; }
   .loc-copy { flex-basis: auto; }
   .map-dialog-bar { align-items: flex-start; flex-direction: column; }
@@ -1707,12 +1783,27 @@ p { margin: 0 0 1rem; }
 section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 
 @media (min-width: 768px) {
+  .quality-landscape {
+    display: block;
+    flex: 0 1 auto;
+    width: min(34vw, 26rem);
+    margin: 0 0 1rem auto;
+  }
+
+  .quality-landscape img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: right center;
+  }
+
   .footer-brand {
     justify-content: flex-start;
     width: 100%;
     padding-left: calc(4vw + 0.5rem - 1rem);
     padding-right: 4vw;
     box-sizing: border-box;
+    margin-bottom: 0;
   }
 
   .footer-landscape {
@@ -1739,6 +1830,7 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   .pillar-grid,
   .contact-grid {
     grid-template-columns: 1fr;
+    gap: 1.75rem;
   }
 
   .pillar-grid { gap: 0; }
