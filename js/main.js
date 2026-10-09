@@ -502,6 +502,74 @@
     });
   }
 
+  var developerBody = document.getElementById("developerBody");
+  var developerMore = document.getElementById("developerMore");
+  if (developerBody && developerMore) {
+    var developerLabel = developerMore.querySelector(".developer-more-label");
+    var developerParagraphs = Array.prototype.map.call(
+      developerBody.querySelectorAll("p"),
+      function (paragraph) { return paragraph.textContent; }
+    );
+    var developerOpen = false;
+    var developerQuery = window.matchMedia("(max-width: 767px)");
+    var developerLimit = 100;
+
+    function developerWords(text) {
+      var trimmed = text.trim();
+      return trimmed ? trimmed.split(/\s+/) : [];
+    }
+
+    function renderDeveloperCopy() {
+      var total = developerParagraphs.reduce(function (sum, text) {
+        return sum + developerWords(text).length;
+      }, 0);
+      var showToggle = developerQuery.matches && total > developerLimit;
+      var expanded = showToggle && developerOpen;
+
+      developerMore.hidden = !showToggle;
+      developerMore.classList.toggle("is-open", expanded);
+      developerMore.setAttribute("aria-expanded", expanded ? "true" : "false");
+      if (developerLabel) developerLabel.textContent = expanded ? "Read less" : "Read more";
+
+      developerBody.textContent = "";
+      if (!showToggle || developerOpen) {
+        developerParagraphs.forEach(function (text) {
+          var paragraph = document.createElement("p");
+          paragraph.textContent = text;
+          developerBody.appendChild(paragraph);
+        });
+        return;
+      }
+
+      var remaining = developerLimit;
+      developerParagraphs.forEach(function (text) {
+        if (remaining <= 0) return;
+        var words = developerWords(text);
+        var paragraph = document.createElement("p");
+        if (words.length <= remaining) {
+          paragraph.textContent = text;
+          remaining -= words.length;
+        } else {
+          paragraph.textContent = words.slice(0, remaining).join(" ") + "…";
+          remaining = 0;
+        }
+        developerBody.appendChild(paragraph);
+      });
+    }
+
+    developerMore.addEventListener("click", function () {
+      developerOpen = !developerOpen;
+      renderDeveloperCopy();
+    });
+
+    renderDeveloperCopy();
+    if (typeof developerQuery.addEventListener === "function") {
+      developerQuery.addEventListener("change", renderDeveloperCopy);
+    } else if (typeof developerQuery.addListener === "function") {
+      developerQuery.addListener(renderDeveloperCopy);
+    }
+  }
+
   var disclaimer = document.getElementById("footerDisclaimer");
   var disclaimerToggle = document.getElementById("disclaimerToggle");
   if (disclaimer && disclaimerToggle) {
