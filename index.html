@@ -9,7 +9,7 @@
   <link rel="preload" as="video" href="assets/hero.webm" type="video/webm">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Serif+Devanagari:wght@500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+Devanagari:wght@500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
   <script>document.documentElement.classList.replace("no-js","js")</script>
@@ -30,6 +30,7 @@
           </span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Open menu">
+          <span class="toggler-bar"></span>
           <span class="toggler-bar"></span>
           <span class="toggler-bar"></span>
         </button>
@@ -55,7 +56,6 @@
       <div class="hero-scrim" aria-hidden="true"></div>
       <div class="hero-copy">
         <p class="hero-kicker">Madhavam</p>
-        <p class="hero-sub">Approved Gated Residential Community</p>
         <h1>Land is the<br>New Gold</h1>
         <p class="hero-line">Luxury residential plots amidst nature</p>
         <div class="hero-actions">
@@ -69,7 +69,7 @@
       <div class="sheet">
         <div class="gallery-head reveal">
           <div class="gallery-copy">
-            <p class="gallery-kicker">Gallery</p>
+            
             <h2 class="gallery-title"><span class="gallery-title-line">A Glimpse of</span> <span class="gallery-title-name">Madhavam</span></h2>
             <p class="gallery-intro">Explore the thoughtfully designed spaces, green landscapes and modern amenities that make Madhavam a place to live, grow and belong.</p>
           </div>
@@ -207,29 +207,19 @@
     </section>
 
     <section class="arrival" id="arrival" aria-label="Film of the Madhavam gate and community">
-      <video class="arrival-video" muted playsinline preload="metadata" poster="assets/radhe-radhe-gate-poster.webp" disablepictureinpicture>
+      <video class="arrival-video" muted loop playsinline preload="metadata" poster="assets/radhe-radhe-gate-poster.webp" disablepictureinpicture>
         <source src="assets/radhe-radhe-gate-to-aerial-15s-kling.webm" type="video/webm">
         <source src="assets/radhe-radhe-gate-to-aerial-15s-kling.mp4" type="video/mp4">
       </video>
-      <div class="arrival-veil" aria-hidden="true"></div>
-      <div class="arrival-glimmer" aria-hidden="true"></div>
-      <div class="arrival-mark">
-        <picture>
-          <source srcset="assets/krishnaju.webp" type="image/webp">
-          <img src="assets/krishnaju.png" alt="Krishna playing the flute" width="1268" height="1241">
-        </picture>
-      </div>
     </section>
 
     <section class="location band" id="location">
       <div class="sheet">
-        <h2 class="location-title reveal">Location Advantages</h2>
+        <h2 class="location-title reveal"><span class="location-title-line">A Place to Own</span><span class="location-title-main">A Life to Cherish.</span></h2>
         <div class="location-board reveal">
           <ul class="location-col location-col-left">
             <li class="loc-item loc-item-left">
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M24 3.5l3.2 5.2h4.6l1.6 3.4H14.6l1.6-3.4h4.6L24 3.5z"/><path d="M16.5 12h15v3.2h-15z"/><path d="M11 15.2h26v3.4H11z"/><path d="M8.5 18.6h31V42h-31z"/><path d="M8.5 27.5h31"/><path d="M20 42V30.2h8V42"/><path d="M24 8.6V12"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-temple" aria-hidden="true"></span>
               <span class="loc-copy">
                 <strong>Akshardham Temple</strong>
                 <span>25 Minutes</span>
@@ -237,9 +227,7 @@
               <span class="loc-line" aria-hidden="true"></span>
             </li>
             <li class="loc-item loc-item-left">
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M12 33.5V19.5c0-6.6 5.4-11.5 12-11.5s12 4.9 12 11.5v14"/><path d="M9 33.5h30"/><path d="M14 40.5l-3.2-7h26.4l-3.2 7"/><path d="M17 22.5h5.5M25.5 22.5H31"/><path d="M24 8v5.5"/><circle cx="18.5" cy="28.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="29.5" cy="28.5" r="1.4" fill="currentColor" stroke="none"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-metro" aria-hidden="true"></span>
               <span class="loc-copy">
                 <strong>Hindon River Metro</strong>
                 <span>7 Minutes</span>
@@ -247,9 +235,7 @@
               <span class="loc-line" aria-hidden="true"></span>
             </li>
             <li class="loc-item loc-item-left">
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M5 27.5c7.5-12 30.5-12 38 0"/><path d="M5 27.5h38"/><path d="M14 27.5V40M24 27.5V40M34 27.5V40"/><path d="M7 18.5h9.5l2.2 4.2H9z"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-bridge" aria-hidden="true"></span>
               <span class="loc-copy">
                 <strong>Elevated Road</strong>
                 <span>5 Minutes</span>
@@ -257,9 +243,7 @@
               <span class="loc-line" aria-hidden="true"></span>
             </li>
             <li class="loc-item loc-item-left">
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M7 31.5h28.5c4.2 0 7-2.4 7-5.8s-2.8-5.8-7-5.8H16.5L7 26.2v5.3z"/><path d="M7 31.5v3.8h4.2l2-3.8"/><path d="M18 22.2h9"/><circle cx="17" cy="33.2" r="2.2"/><circle cx="31" cy="33.2" r="2.2"/><path d="M12 37.8h3.2M22 37.8h3.2M32 37.8h3.2"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-regional" aria-hidden="true"></span>
               <span class="loc-copy">
                 <strong>Namo Bharat</strong>
                 <span>5 Minutes</span>
@@ -280,9 +264,7 @@
                 <strong>Hindon Airport</strong>
                 <span>15 Minutes</span>
               </span>
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M6 27.5l16.5-3.2 7.2-11.2 3.6 1.6-5.4 11 9.2 1.8-1.6 3.4-10.8-1.6-3.4 7.4-3.6-1.4 2.2-7.2L6 30.2v-2.7z"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-airplane" aria-hidden="true"></span>
             </li>
             <li class="loc-item loc-item-right">
               <span class="loc-line" aria-hidden="true"></span>
@@ -290,9 +272,7 @@
                 <strong>Eastern Peripheral Expressway</strong>
                 <span>10 Minutes</span>
               </span>
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M9 41.5L18.2 8h11.6L39 41.5"/><path d="M6.5 41.5h35"/><path d="M24 14.5v4.2M24 23v4.2M24 31.5v4.2"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-road" aria-hidden="true"></span>
             </li>
             <li class="loc-item loc-item-right">
               <span class="loc-line" aria-hidden="true"></span>
@@ -300,9 +280,7 @@
                 <strong>Railway Station</strong>
                 <span>8 Minutes</span>
               </span>
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><path d="M8 28.5h24.5c4.6 0 7.8-2.6 7.8-6.2v-1.6c0-3.8-3-6.6-7.4-6.6H15.5L8 20.8v7.7z"/><circle cx="16.5" cy="30.2" r="2.6"/><circle cx="29.5" cy="30.2" r="2.6"/><path d="M10 35.2h26"/><path d="M12 39.2h4.2M21.5 39.2H26M31 39.2h4.2"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-train" aria-hidden="true"></span>
             </li>
             <li class="loc-item loc-item-right">
               <span class="loc-line" aria-hidden="true"></span>
@@ -310,9 +288,7 @@
                 <strong>Proposed BCCI Cricket Stadium</strong>
                 <span>10 Minutes</span>
               </span>
-              <span class="loc-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48"><circle cx="18.5" cy="9.5" r="3.2"/><path d="M18.5 13.2l-1.2 9.2"/><path d="M12.8 19.2l8.4 2.2 4.6 4.2"/><path d="M16.2 23.2L13 38.5"/><path d="M18.8 24.2l6.2 13.8"/><path d="M22.5 16.2l12.8 16.5"/><path d="M33.2 30.8l4.6 2.2"/></svg>
-              </span>
+              <span class="loc-ico loc-ico-cricket" aria-hidden="true"></span>
             </li>
           </ul>
         </div>
@@ -336,7 +312,7 @@
 
     <section class="paper band" id="quality">
       <div class="sheet">
-        <h2 class="reveal">Built to last.<br>Finished with care.</h2>
+        <h2 class="reveal"><span class="quality-lead">Built to last.</span><br><span class="quality-accent">Finished with care.</span></h2>
         <p class="lead-copy reveal">Construction quality is the foundation of Madhavam — checked at each stage, from structure to the day a family takes the keys.</p>
         <div class="pillar-grid">
           <article class="reveal">
@@ -356,27 +332,27 @@
             <p>Pricing, paperwork, and possession explained up front. Earthwaves Developers Pvt Ltd, GSTIN on record.</p>
           </article>
         </div>
-        <div class="step-grid">
-          <article class="reveal">
-            <p class="step-no">01</p>
-            <h3>Premium Materials</h3>
-            <p>Finishes and structural materials sourced against a written specification, not swapped on site.</p>
-          </article>
-          <article class="reveal">
-            <p class="step-no">02</p>
-            <h3>Engineering Standards</h3>
-            <p>Structural design reviewed for code compliance before work moves above ground.</p>
-          </article>
-          <article class="reveal">
-            <p class="step-no">03</p>
-            <h3>Construction Process</h3>
-            <p>Quality gates recorded from foundation through finishing, so progress is traceable.</p>
-          </article>
-          <article class="reveal">
-            <p class="step-no">04</p>
-            <h3>Quality Assurance</h3>
-            <p>Inspection before handover, so possession matches the home that was promised.</p>
-          </article>
+
+        <div class="developer reveal">
+          <picture class="developer-bg">
+            <source srcset="assets/elegant-banquet-hall-interior.webp" type="image/webp">
+            <img src="assets/Elegant%20Banquet%20Hall%20Interior.png" alt="">
+          </picture>
+          <div class="developer-scrim" aria-hidden="true"></div>
+          <div class="developer-mark" aria-hidden="true">
+            <img src="assets/krinajiavatargolder.webp" alt="" width="1268" height="1241">
+          </div>
+          <div class="developer-copy">
+            <p class="developer-kicker">About Developer</p>
+            <h3>Building Trust. Shaping Futures.</h3>
+            <p>Earthwaves Developers Private Limited is an emerging and progressive name in the Delhi-NCR real estate landscape, driven by a management team with over 15 years of extensive experience in real estate development and the regional property market. Built on a strong understanding of land, location and evolving homebuyer aspirations, the company is committed to creating thoughtfully planned residential communities that offer a fulfilling lifestyle and enduring value.</p>
+            <p>With a vision to bring back the timeless significance of land ownership, Earthwaves is redefining residential living through its distinctive concept of “Plotted Development for Housing.” The philosophy is to give families the freedom of owning their own piece of land and the opportunity to create a home that truly reflects their lifestyle, aspirations and future.</p>
+            <p>Just 500 metres from MADHAVAM, Earthwaves successfully delivered Radhe Radhe Aaradhayam, a residential plotted development comprising 71 plots, within a span of just two years. This successful completion reflects the Group’s focus on timely execution, thoughtful planning, quality development and customer commitment, while strengthening its presence and credibility in the region.</p>
+            <p>At Earthwaves, development goes beyond creating plots and infrastructure. Every customer is considered part of the extended family, inspiring communities built on trust, transparency, quality, commitment and long-term value. With every development, Earthwaves strives to deliver on its promises and create addresses where families can grow, prosper and build lasting memories for generations.</p>
+            <p class="developer-meta">
+              
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -431,16 +407,16 @@
   </main>
 
   <footer class="site-footer" id="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a class="footer-logo" href="#top">
-          <picture>
-            <source srcset="assets/radhe-radhe-madhavam-logo.webp" type="image/webp">
-            <img src="assets/Radhe%20Radhe%20Madhavam%20Logo.png" alt="Radhe Radhe Madhavam" width="1759" height="894">
-          </picture>
-        </a>
-      </div>
+    <div class="footer-brand">
+      <a class="footer-logo" href="#top">
+        <picture>
+          <source srcset="assets/radhe-radhe-madhavam-logo.webp" type="image/webp">
+          <img src="assets/Radhe%20Radhe%20Madhavam%20Logo.png" alt="Radhe Radhe Madhavam" width="1759" height="894">
+        </picture>
+      </a>
+    </div>
 
+    <div class="footer-inner">
       <div class="footer-contacts">
         <p><strong>Corporate Office:</strong> G1, South Extension, Block G, South Extension II, New Delhi, Delhi 110049</p>
         <p><strong>Site Address:</strong> KH. No.385M, 386M, Bhowapur, Raj Nagar Extension, Ghaziabad, Uttar Pradesh, 201017</p>
@@ -469,6 +445,10 @@
       </p>
       <p class="footer-copy">Copyright © Earthwaves Developers Private Limited.</p>
     </div>
+    <picture class="footer-landscape">
+      <source srcset="assets/emerald-green-panoramic-landscape-outline.webp" type="image/webp">
+      <img src="assets/Emerald%20Green%20Panoramic%20Landscape%20Outline.png" alt="" width="2172" height="724">
+    </picture>
   </footer>
 
   <a class="wa-float" href="https://wa.me/918069982711" rel="noopener noreferrer" aria-label="Chat on WhatsApp">

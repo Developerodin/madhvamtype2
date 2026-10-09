@@ -10,6 +10,17 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  var navToggle = document.querySelector(".navbar-toggler");
+  var siteNav = document.getElementById("siteNav");
+  if (navToggle && siteNav) {
+    siteNav.addEventListener("show.bs.collapse", function () {
+      navToggle.setAttribute("aria-label", "Close menu");
+    });
+    siteNav.addEventListener("hide.bs.collapse", function () {
+      navToggle.setAttribute("aria-label", "Open menu");
+    });
+  }
+
   if (reduceMotion && video) {
     video.removeAttribute("autoplay");
     video.pause();
@@ -293,58 +304,21 @@
   var arrivalVideo = arrival && arrival.querySelector(".arrival-video");
 
   if (arrival && arrivalVideo && !reduceMotion) {
-    var arrivalInView = false;
-    var arrivalPhase = "idle";
-    var arrivalTimers = [];
-
-    function clearArrivalTimers() {
-      arrivalTimers.forEach(clearTimeout);
-      arrivalTimers = [];
-    }
-
-    function afterArrival(fn, ms) {
-      arrivalTimers.push(window.setTimeout(fn, ms));
-    }
-
     function playArrival() {
-      clearArrivalTimers();
-      arrivalPhase = "playing";
-      arrival.classList.remove("is-glimmer", "is-mark");
-      if (!arrivalInView) return;
       var pending = arrivalVideo.play();
       if (pending && pending.catch) pending.catch(function () {});
     }
 
-    arrivalVideo.addEventListener("ended", function () {
-      if (arrivalPhase === "glimmer" || arrivalPhase === "mark") return;
-      arrivalPhase = "glimmer";
-      arrival.classList.add("is-glimmer");
-      afterArrival(function () {
-        arrivalPhase = "mark";
-        arrival.classList.add("is-mark");
-      }, 1200);
-      afterArrival(function () {
-        arrival.classList.remove("is-mark");
-      }, 4600);
-      afterArrival(function () {
-        arrival.classList.remove("is-glimmer");
-        arrivalVideo.currentTime = 0;
-        playArrival();
-      }, 5450);
-    });
-
     if ("IntersectionObserver" in window) {
       var arrivalWatch = new IntersectionObserver(function (entries) {
-        arrivalInView = entries[0].isIntersecting;
-        if (arrivalInView && arrivalPhase !== "glimmer" && arrivalPhase !== "mark" && arrivalVideo.paused) {
-          playArrival();
-        } else if (!arrivalInView && arrivalPhase === "playing") {
+        if (entries[0].isIntersecting) {
+          if (arrivalVideo.paused) playArrival();
+        } else {
           arrivalVideo.pause();
         }
       }, { threshold: 0.45 });
       arrivalWatch.observe(arrival);
     } else {
-      arrivalInView = true;
       playArrival();
     }
   }
