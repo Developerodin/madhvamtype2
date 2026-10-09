@@ -924,6 +924,7 @@ p { margin: 0 0 1rem; }
   display: flex;
   flex-direction: column;
   min-width: 0;
+  padding-bottom: 0 !important;
 }
 
 .quality-head {
@@ -1317,6 +1318,8 @@ p { margin: 0 0 1rem; }
   margin: 2.5rem auto 0;
 }
 
+.location-connect { display: none; }
+
 .map-dialog {
   width: min(1120px, calc(100vw - 2rem));
   height: min(860px, calc(100dvh - 2rem));
@@ -1472,13 +1475,13 @@ p { margin: 0 0 1rem; }
   }
 }
 
-/* Phones: hills sit between the map and the location points. */
+/* Phones: map, hills, then a vertical connectivity timeline. */
 @media (max-width: 767.98px) {
   .location.band {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1.5rem;
-    row-gap: 1.35rem;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 0;
     padding-inline: 1.25rem;
   }
 
@@ -1496,20 +1499,156 @@ p { margin: 0 0 1rem; }
     grid-column: 1 / -1;
     order: 0;
     width: 100%;
-    margin-bottom: 0.25rem;
+    margin-bottom: 1.25rem;
   }
 
-  .location-map { order: 1; }
+  .location-map {
+    order: 1;
+    margin-bottom: 0.35rem;
+  }
 
   .location-horizon {
     grid-column: 1 / -1;
     order: 2;
     width: min(100%, 36rem);
-    margin: 0.15rem auto;
+    margin: 0.35rem auto 1.5rem;
     justify-self: center;
   }
 
-  .loc-item { order: 3; }
+  .location-connect {
+    display: block;
+    grid-column: 1 / -1;
+    order: 3;
+    width: 100%;
+    margin: 0.15rem 0 1.85rem;
+  }
+
+  .location-connect-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0 0 0.7rem;
+    color: var(--loc-gold);
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .location-connect-kicker::before {
+    content: "";
+    width: 2.15rem;
+    height: 1px;
+    background: var(--loc-gold);
+  }
+
+  .location-connect-title {
+    margin: 0;
+    color: #f7f3ea;
+    font-size: clamp(2.7rem, 12vw, 3.7rem);
+    font-weight: 500;
+    line-height: 0.92;
+  }
+
+  .location-connect-lead,
+  .location-connect-accent { display: block; }
+
+  .location-connect-accent {
+    color: #d4b06a;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .loc-item,
+  .loc-item-right {
+    order: 4;
+    grid-column: 1 / -1;
+    position: relative;
+    display: grid;
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+    column-gap: 1.15rem;
+    align-items: center;
+    justify-content: start;
+    min-height: 0;
+    padding: 0 0 1.85rem;
+  }
+
+  .location-col-right .loc-item:last-child { padding-bottom: 0; }
+
+  .loc-item::after {
+    content: "";
+    position: absolute;
+    left: calc(4.25rem / 2);
+    bottom: -2px;
+    width: 5px;
+    height: 5px;
+    background: #e8d8ac;
+    transform: translateX(-50%) rotate(46deg);
+    pointer-events: none;
+  }
+
+  .location-col-right .loc-item:last-child::after { content: none; }
+
+  .loc-ico {
+    position: relative;
+    z-index: 1;
+    width: 4.25rem;
+    height: 4.25rem;
+    background: none;
+    border: 1px solid #e4d2a4;
+    border-radius: 50%;
+    -webkit-mask: none;
+    mask: none;
+  }
+
+  .loc-ico::before {
+    content: "";
+    position: absolute;
+    inset: 23%;
+    background: var(--loc-gold);
+    -webkit-mask: var(--ico) center / contain no-repeat;
+    mask: var(--ico) center / contain no-repeat;
+  }
+
+  .loc-ico::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 1.85rem;
+    background: linear-gradient(
+      180deg,
+      rgba(232, 216, 172, 0) 0%,
+      rgb(232 216 172 / 42%) 42%,
+      #e8d8ac 100%
+    );
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .location-col-right .loc-item:last-child .loc-ico::after { content: none; }
+
+  .loc-copy {
+    max-width: none;
+    padding-top: 0;
+  }
+
+  .loc-copy strong {
+    color: #f7f3ea;
+    font-family: var(--sans);
+    font-size: 1.12rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .loc-copy span {
+    margin-top: 0.22rem;
+    color: #d4b06a;
+    font-size: 0.98rem;
+  }
 }
 
 @media (max-width: 575.98px) {
