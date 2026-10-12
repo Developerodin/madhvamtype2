@@ -2367,7 +2367,7 @@ html.plan-lightbox-open {
   color: rgba(243, 238, 228, 0.88);
 }
 
-.footer-contacts p { margin: 0; }
+/* .footer-contacts p { margin: 0; } */
 
 .footer-contacts strong {
   font-weight: 500;
@@ -2385,7 +2385,7 @@ html.plan-lightbox-open {
 .footer-rera {
   margin: 0 0 2.4rem;
   color: var(--gold);
-  font-size: 22.5px;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -2393,37 +2393,6 @@ html.plan-lightbox-open {
 }
 
 .footer-rera p { margin: 0; }
-
-.footer-disclaimer {
-  margin: 0 auto 1.5rem;
-  max-width: 52rem;
-  color: rgba(243, 238, 228, 0.78);
-  font-size: 21px;
-  line-height: 1.7;
-}
-
-.footer-disclaimer[data-collapsed="true"] .disclaimer-more { display: none; }
-
-.disclaimer-toggle {
-  display: inline-block;
-  margin-top: 0.85rem;
-  padding: 0.2rem 0.7rem;
-  border: 1px solid var(--gold);
-  background: transparent;
-  color: rgba(243, 238, 228, 0.9);
-  font-size: 21px;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  border-radius: 2px;
-}
-
-.disclaimer-toggle:hover,
-.disclaimer-toggle:focus-visible {
-  color: #fff;
-  background: #0e4a32;
-  border-color: var(--gold);
-  outline: none;
-}
 
 .footer-bar {
   margin-top: 2rem;
@@ -2454,7 +2423,7 @@ html.plan-lightbox-open {
 .footer-copy {
   margin: 0;
   color: rgba(243, 238, 228, 0.85);
-  font-size: 21px;
+  font-size: 17px;
 }
 
 .wa-float {
@@ -2560,9 +2529,8 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   .contact-facts span,
   .contact-facts p,
   .footer-contacts,
-  .footer-disclaimer,
   .footer-copy {
-    font-size: 24px;
+    font-size: 21px;
   }
 }
 
@@ -2572,6 +2540,7 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 }
 
 @media (max-width: 767px) {
+  .footer-copy { font-size: 14px; }
   .footer-links .sep { display: none; }
 
   .band { padding: 3.25rem 0; }
@@ -2620,9 +2589,7 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   .pillar-grid p,
   .contact-facts span,
   .contact-facts p,
-  .footer-contacts,
-  .footer-disclaimer,
-  .footer-copy {
+  .footer-contacts {
     font-size: 18px;
   }
 }
@@ -2672,7 +2639,7 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 .legal-prose h1 {
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   line-height: 1.05;
-  color: #0E4A32;
+  color: var(--burgundy);
   margin-bottom: 0.75rem;
 }
 
@@ -2693,9 +2660,10 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 .legal-prose h2 {
   font-size: clamp(1.65rem, 3vw, 2.15rem);
   line-height: 1.15;
-  color: #0E4A32;
+  color: var(--green-word);
   margin-top: 2.5rem;
   margin-bottom: 0.85rem;
+  font-weight: 600;
 }
 
 .legal-prose h3 {

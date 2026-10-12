@@ -846,17 +846,6 @@
     }
   }
 
-  var disclaimer = document.getElementById("footerDisclaimer");
-  var disclaimerToggle = document.getElementById("disclaimerToggle");
-  if (disclaimer && disclaimerToggle) {
-    disclaimerToggle.addEventListener("click", function () {
-      var collapsed = disclaimer.getAttribute("data-collapsed") === "true";
-      disclaimer.setAttribute("data-collapsed", collapsed ? "false" : "true");
-      disclaimerToggle.setAttribute("aria-expanded", collapsed ? "true" : "false");
-      disclaimerToggle.textContent = collapsed ? "Read less" : "Read more";
-    });
-  }
-
   /* Site plan tabs + lightweight lightbox */
   (function initSitePlan() {
     var tabs = Array.prototype.slice.call(document.querySelectorAll(".site-plan-tab"));
