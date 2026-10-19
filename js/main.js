@@ -110,21 +110,21 @@
   if (galleryStage) {
     var gallerySlides = [
       { category: "aerial", title: "A Planned Community Amidst Nature", lines: ["A Planned", "Community", "Amidst Nature"], caption: "", feature: true, png: "assets/Residential Aerial View.png", webp: "assets/residential-aerial-view.webp" },
-      { category: "amenities", also: "clubhouse", title: "Park Gazebo", caption: "Relax. Reconnect. Belong.", png: "assets/Golden-Hour Luxury Garden Pavilion.png", webp: "assets/golden-hour-luxury-garden-pavilion.webp" },
+      { category: "amenities", also: "landscapes", title: "Park Gazebo", caption: "Relax. Reconnect. Belong.", png: "assets/Golden-Hour Luxury Garden Pavilion.png", webp: "assets/golden-hour-luxury-garden-pavilion.webp" },
       { category: "amenities", title: "Kids Play Area", caption: "A Safer, Happier Tomorrow", png: "assets/Playground Oasis.png", webp: "assets/playground-oasis.webp" },
       { category: "roads", title: "Internal Roads", caption: "Wide. Well Planned. Serene.", png: "assets/ Street.png", webp: "assets/street.webp" },
       { category: "amenities", also: "landscapes", title: "Flower Garden", caption: "Green spaces for a healthier life.", png: "assets/ Courtyard.png", webp: "assets/courtyard.webp" },
       { category: "amenities", title: "Badminton Court", caption: "A court set among the trees.", png: "assets/Badminton Courtyard.png", webp: "assets/badminton-courtyard.webp" },
       { category: "amenities", also: "clubhouse", title: "Multi Purpose Hall", caption: "A hall for a hundred, with a pantry.", png: "assets/Elegant Banquet Hall Interior.png", webp: "assets/elegant-banquet-hall-interior.webp" },
       { category: "amenities", also: "landscapes", title: "Lush Green Lawn with Jogging Track", caption: "A lawn to run, walk, and gather.", png: "assets/ Garden Jogging Park.png", webp: "assets/garden-jogging-park.webp" },
-      { category: "amenities", title: "Gymnasium", caption: "Training with a view of the gardens.", png: "assets/ Gym with Garden Views.png", webp: "assets/gym-with-garden-views.webp" },
-      { category: "amenities", title: "Yoga and Zumba Room", caption: "A quiet room for yoga and dance.", png: "assets/Yoga and Dance Studio.png", webp: "assets/yoga-and-dance-studio.webp" },
+      { category: "amenities", also: "clubhouse", title: "Gymnasium", caption: "Training with a view of the gardens.", png: "assets/ Gym with Garden Views.png", webp: "assets/gym-with-garden-views.webp" },
+      { category: "amenities", also: "clubhouse", title: "Yoga and Zumba Room", caption: "A quiet room for yoga and dance.", png: "assets/Yoga and Dance Studio.png", webp: "assets/yoga-and-dance-studio.webp" },
       { category: "amenities", also: "landscapes", title: "Sculpture Platform", caption: "A plaza to pause in the garden.", png: "assets/Garden Sculpture Plaza.png", webp: "assets/garden-sculpture-plaza.webp" },
       { category: "amenities", title: "Cricket Net Practice", caption: "Nets for an evening session.", png: "assets/Cricket Practice Courtyard.png", webp: "assets/cricket-practice-courtyard.webp" },
       { category: "amenities", title: "Yoga Lawn", caption: "An open lawn for morning practice." },
       { category: "amenities", title: "Pet Park", caption: "A corner of the garden for pets." },
-      { category: "amenities", title: "Indoor Games Room", caption: "Board games and indoor play.", png: "assets/indoorGames Room .png" },
-      { category: "amenities", title: "Toddler Play Area", caption: "A softer space for the smallest." }
+      { category: "amenities", also: "clubhouse", title: "Indoor Games Room", caption: "Board games and indoor play.", png: "assets/indoorGames Room .png" },
+      { category: "amenities", also: "clubhouse", title: "Toddler Play Area", caption: "A softer space for the smallest.", png: "assets/Toddler Play Area.png", webp: "assets/toddler-play-area.webp" }
     ];
     var galleryLeaf = '<svg class="gallery-leaf" viewBox="0 0 72 118" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.15"><path d="M36 108c0-28-14-42-18-68"/><path d="M18 40c10-2 18 10 18 24"/><path d="M36 86c16-8 28-22 24-40"/><path d="M60 46c-10 2-18 14-20 26"/><path d="M34 98c-12-4-22-16-20-30"/><path d="M14 68c8 2 14 10 16 18"/><path d="M36 70c8-18 8-32 2-44"/><path d="M38 26c6 8 8 18 6 28"/></g></svg>';
     var galleryFilter = "all";
@@ -517,7 +517,7 @@
     if (!arrival || !window.gsap || reduceMotion) return null;
 
     var words = arrival.querySelectorAll(".arrival-word");
-    var rule = arrival.querySelector(".arrival-title-rule");
+    var rule = arrival.querySelector(".title-arrows");
     var items = arrival.querySelectorAll(".arrival-benefits li");
     if (!words.length || !items.length) return null;
 
@@ -782,22 +782,58 @@
   var developerMore = document.getElementById("developerMore");
   if (developerBody && developerMore) {
     var developerLabel = developerMore.querySelector(".developer-more-label");
-    var developerParagraphs = Array.prototype.map.call(
+    var developerNodes = Array.prototype.map.call(
       developerBody.querySelectorAll("p"),
-      function (paragraph) { return paragraph.textContent; }
+      function (paragraph) { return paragraph.cloneNode(true); }
     );
     var developerOpen = false;
     var developerQuery = window.matchMedia("(max-width: 767px)");
     var developerLimit = 100;
 
     function developerWords(text) {
-      var trimmed = text.trim();
+      var trimmed = (text || "").trim();
       return trimmed ? trimmed.split(/\s+/) : [];
     }
 
+    function truncateRichNode(source, remaining) {
+      var clone = source.cloneNode(false);
+      var nodes = Array.prototype.slice.call(source.childNodes);
+      var i;
+
+      for (i = 0; i < nodes.length; i += 1) {
+        if (remaining.count <= 0) break;
+        var child = nodes[i];
+
+        if (child.nodeType === 3) {
+          var words = developerWords(child.nodeValue);
+          if (!words.length) {
+            clone.appendChild(document.createTextNode(child.nodeValue));
+            continue;
+          }
+          if (words.length <= remaining.count) {
+            clone.appendChild(document.createTextNode(child.nodeValue));
+            remaining.count -= words.length;
+          } else {
+            clone.appendChild(
+              document.createTextNode(words.slice(0, remaining.count).join(" ") + "…")
+            );
+            remaining.count = 0;
+          }
+          continue;
+        }
+
+        if (child.nodeType === 1) {
+          var nested = truncateRichNode(child, remaining);
+          if (nested.textContent) clone.appendChild(nested);
+        }
+      }
+
+      return clone;
+    }
+
     function renderDeveloperCopy() {
-      var total = developerParagraphs.reduce(function (sum, text) {
-        return sum + developerWords(text).length;
+      var total = developerNodes.reduce(function (sum, node) {
+        return sum + developerWords(node.textContent).length;
       }, 0);
       var showToggle = developerQuery.matches && total > developerLimit;
       var expanded = showToggle && developerOpen;
@@ -809,27 +845,22 @@
 
       developerBody.textContent = "";
       if (!showToggle || developerOpen) {
-        developerParagraphs.forEach(function (text) {
-          var paragraph = document.createElement("p");
-          paragraph.textContent = text;
-          developerBody.appendChild(paragraph);
+        developerNodes.forEach(function (node) {
+          developerBody.appendChild(node.cloneNode(true));
         });
         return;
       }
 
-      var remaining = developerLimit;
-      developerParagraphs.forEach(function (text) {
-        if (remaining <= 0) return;
-        var words = developerWords(text);
-        var paragraph = document.createElement("p");
-        if (words.length <= remaining) {
-          paragraph.textContent = text;
-          remaining -= words.length;
-        } else {
-          paragraph.textContent = words.slice(0, remaining).join(" ") + "…";
-          remaining = 0;
+      var remaining = { count: developerLimit };
+      developerNodes.forEach(function (node) {
+        if (remaining.count <= 0) return;
+        var words = developerWords(node.textContent);
+        if (words.length <= remaining.count) {
+          developerBody.appendChild(node.cloneNode(true));
+          remaining.count -= words.length;
+          return;
         }
-        developerBody.appendChild(paragraph);
+        developerBody.appendChild(truncateRichNode(node, remaining));
       });
     }
 
@@ -846,16 +877,25 @@
     }
   }
 
-  /* Site plan tabs + lightweight lightbox */
-  (function initSitePlan() {
-    var tabs = Array.prototype.slice.call(document.querySelectorAll(".site-plan-tab"));
-    var panels = Array.prototype.slice.call(document.querySelectorAll(".site-plan-panel"));
-    var lightbox = document.getElementById("sitePlanLightbox");
-    var stage = document.getElementById("sitePlanLightboxStage");
-    var img = document.getElementById("sitePlanLightboxImg");
+  var faqMore = document.getElementById("faqMore");
+  var faqMoreBtn = document.getElementById("faqMoreBtn");
+  if (faqMore && faqMoreBtn) {
+    var faqMoreLabel = faqMoreBtn.querySelector(".faq-more-label");
+
+    faqMoreBtn.addEventListener("click", function () {
+      var expanded = faqMoreBtn.getAttribute("aria-expanded") === "true";
+      var next = !expanded;
+      faqMore.hidden = !next;
+      faqMoreBtn.setAttribute("aria-expanded", next ? "true" : "false");
+      faqMoreBtn.classList.toggle("is-open", next);
+      if (faqMoreLabel) faqMoreLabel.textContent = next ? "Show less" : "Show more";
+    });
+  }
+
+  function setupTabStrip(tabs, panels) {
     if (!tabs.length || !panels.length) return;
 
-    function activatePlanTab(tab) {
+    function activateTab(tab) {
       if (!tab) return;
       var panelId = tab.getAttribute("aria-controls");
       tabs.forEach(function (item) {
@@ -873,7 +913,7 @@
 
     tabs.forEach(function (tab) {
       tab.addEventListener("click", function () {
-        activatePlanTab(tab);
+        activateTab(tab);
       });
       tab.addEventListener("keydown", function (event) {
         var index = tabs.indexOf(tab);
@@ -885,217 +925,342 @@
         if (next < 0) return;
         event.preventDefault();
         tabs[next].focus();
-        activatePlanTab(tabs[next]);
+        activateTab(tabs[next]);
       });
     });
+  }
 
-    if (!lightbox || !stage || !img || !lightbox.showModal) return;
+  (function initDocuments() {
+    setupTabStrip(
+      Array.prototype.slice.call(document.querySelectorAll(".documents-tab")),
+      Array.prototype.slice.call(document.querySelectorAll(".documents-panel"))
+    );
+  })();
 
-    var planScale = 1;
-    var planX = 0;
-    var planY = 0;
-    var planMin = 1;
-    var planMax = 4;
-    var pointers = new Map();
-    var pinchStartDist = 0;
-    var pinchStartScale = 1;
-    var panLastX = 0;
-    var panLastY = 0;
-    var pointerDownX = 0;
-    var pointerDownY = 0;
-    var lastTapAt = 0;
-    var lastTapX = 0;
-    var lastTapY = 0;
-    var scrollLockY = 0;
-    var scrollLocked = false;
 
-    function applyPlanTransform() {
-      img.style.setProperty("--plan-scale", String(planScale));
-      img.style.setProperty("--plan-x", planX + "px");
-      img.style.setProperty("--plan-y", planY + "px");
+  /* Plots and pricing — interactive map + band table */
+  (function () {
+    var data = window.MADHAVAM_PLOTS;
+    var section = document.getElementById("plots");
+    if (!data || !section) return;
+
+    var svg = document.getElementById("plotsMapSvg");
+    var dialog = document.getElementById("plotDialog");
+    var chipsEl = document.getElementById("plotsBandChips");
+    var bandRows = section.querySelectorAll(".plots-band-row");
+    var NS = "http://www.w3.org/2000/svg";
+    var WA_BASE = "https://wa.me/918069982711";
+    var activeBand = null;
+    var plotByNumber = {};
+
+    (data.plots || []).forEach(function (plot) {
+      plotByNumber[plot.number] = plot;
+    });
+
+    function formatInr(value) {
+      if (value == null || isNaN(value)) return null;
+      try {
+        return new Intl.NumberFormat("en-IN", {
+          style: "currency",
+          currency: data.pricing.currency || "INR",
+          maximumFractionDigits: 0
+        }).format(value);
+      } catch (err) {
+        return "₹" + Math.round(value).toLocaleString("en-IN");
+      }
     }
 
-    function resetPlanTransform() {
-      planScale = 1;
-      planX = 0;
-      planY = 0;
-      applyPlanTransform();
+    function padPlot(n) {
+      return n < 10 ? "0" + n : String(n);
     }
 
-    function lockPageScroll() {
-      if (scrollLocked) return;
-      scrollLocked = true;
-      scrollLockY = window.scrollY || window.pageYOffset || 0;
-      document.documentElement.classList.add("plan-lightbox-open");
-      document.body.classList.add("plan-lightbox-open");
-      document.body.style.top = "-" + scrollLockY + "px";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
+    function statusClass(status) {
+      var s = (status || "Available").toLowerCase();
+      if (s === "sold") return "is-sold";
+      if (s === "booked") return "is-booked";
+      return "is-available";
     }
 
-    function unlockPageScroll() {
-      if (!scrollLocked) return;
-      scrollLocked = false;
-      document.documentElement.classList.remove("plan-lightbox-open");
-      document.body.classList.remove("plan-lightbox-open");
-      document.body.style.top = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      window.scrollTo(0, scrollLockY);
-    }
-
-    function stageOrigin(clientX, clientY) {
-      var rect = stage.getBoundingClientRect();
+    function priceForSize(sizeSqYd) {
+      var rate = data.pricing && data.pricing.ratePerSqYd;
+      if (rate == null || rate === "") {
+        return {
+          rateLabel: data.pricing.priceLabel || "On request",
+          totalLabel: data.pricing.priceLabel || "On request",
+          rate: null,
+          total: null
+        };
+      }
+      var total = rate * sizeSqYd;
       return {
-        x: clientX - (rect.left + rect.width / 2),
-        y: clientY - (rect.top + rect.height / 2)
+        rateLabel: formatInr(rate),
+        totalLabel: formatInr(total),
+        rate: rate,
+        total: total
       };
     }
 
-    function setPlanScale(next, origin) {
-      var prev = planScale;
-      planScale = Math.min(planMax, Math.max(planMin, next));
-      if (planScale <= 1.01) {
-        resetPlanTransform();
+    function hydratePrices() {
+      section.querySelectorAll(".plots-rate").forEach(function (cell) {
+        var size = Number(cell.getAttribute("data-size"));
+        cell.textContent = priceForSize(size).rateLabel;
+      });
+      section.querySelectorAll(".plots-total-price").forEach(function (cell) {
+        var size = Number(cell.getAttribute("data-size"));
+        cell.textContent = priceForSize(size).totalLabel;
+      });
+    }
+
+    function el(name, attrs, text) {
+      var node = document.createElementNS(NS, name);
+      if (attrs) {
+        Object.keys(attrs).forEach(function (key) {
+          node.setAttribute(key, attrs[key]);
+        });
+      }
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    function renderMap() {
+      if (!svg) return;
+      var vb = data.viewBox || { width: 1079, height: 595 };
+      var bounds = data.layoutBounds || { x: 56, y: 56, w: vb.width - 112, h: vb.height - 112 };
+      svg.setAttribute("viewBox", "0 0 " + vb.width + " " + vb.height);
+      svg.replaceChildren();
+
+      var bg = el("g", { class: "plot-backdrop", "aria-hidden": "true" });
+      bg.appendChild(el("rect", {
+        class: "plot-ground",
+        x: 0,
+        y: 0,
+        width: vb.width,
+        height: vb.height,
+        rx: 12
+      }));
+      bg.appendChild(el("rect", {
+        class: "plot-road",
+        x: bounds.x - 18,
+        y: bounds.y + bounds.h * 0.42,
+        width: bounds.w + 36,
+        height: 28,
+        rx: 6
+      }));
+      bg.appendChild(el("rect", {
+        class: "plot-road",
+        x: bounds.x + bounds.w * 0.38,
+        y: bounds.y - 12,
+        width: 26,
+        height: bounds.h + 24,
+        rx: 6
+      }));
+      bg.appendChild(el("rect", {
+        class: "plot-park",
+        x: bounds.x + bounds.w * 0.48,
+        y: bounds.y + bounds.h * 0.38,
+        width: bounds.w * 0.28,
+        height: bounds.h * 0.42,
+        rx: 10
+      }));
+      bg.appendChild(el("ellipse", {
+        class: "plot-water",
+        cx: bounds.x + bounds.w * 0.62,
+        cy: bounds.y + bounds.h * 0.58,
+        rx: 38,
+        ry: 22
+      }));
+      svg.appendChild(bg);
+
+      var layer = el("g", { class: "plot-tiles" });
+      (data.plots || []).forEach(function (plot) {
+        var r = plot.rect || {};
+        var status = plot.status || "Available";
+        var g = el("g", {
+          class: "plot " + statusClass(status),
+          role: "button",
+          tabindex: "0",
+          "data-plot": String(plot.number),
+          "data-band": plot.bandKey || "",
+          "aria-label": [
+            "Plot " + padPlot(plot.number),
+            plot.sizeSqYd + " sq yd",
+            plot.facing ? plot.facing + " facing" : "",
+            (plot.tags || []).join(", "),
+            status
+          ].filter(Boolean).join(", ")
+        });
+        g.appendChild(el("rect", {
+          x: r.x,
+          y: r.y,
+          width: r.w,
+          height: r.h,
+          rx: 2
+        }));
+        var label = el("text", {
+          x: r.x + r.w / 2,
+          y: r.y + r.h / 2,
+          "text-anchor": "middle",
+          "dominant-baseline": "central"
+        }, padPlot(plot.number));
+        var fontSize = Math.max(8, Math.min(12, Math.min(r.w, r.h) * 0.38));
+        label.setAttribute("font-size", String(fontSize));
+        g.appendChild(label);
+        layer.appendChild(g);
+      });
+      svg.appendChild(layer);
+    }
+
+    function waUrlForPlot(plot) {
+      var msg = "Hi, I'd like details on Plot " + padPlot(plot.number) +
+        " (" + plot.sizeSqYd + " sq yd) at Madhavam, Raj Nagar Extension.";
+      return WA_BASE + "?text=" + encodeURIComponent(msg);
+    }
+
+    function openPlotDialog(plot) {
+      if (!dialog || !plot) return;
+      var title = document.getElementById("plotDialogTitle");
+      var meta = document.getElementById("plotDialogMeta");
+      var tags = document.getElementById("plotDialogTags");
+      var price = document.getElementById("plotDialogPrice");
+      var statusEl = document.getElementById("plotDialogStatus");
+      var wa = document.getElementById("plotDialogWa");
+      var priced = priceForSize(plot.sizeSqYd);
+
+      if (title) title.textContent = "Plot " + padPlot(plot.number);
+      if (meta) {
+        meta.innerHTML =
+          "<dt>Size</dt><dd>" + plot.sizeSqYd + " sq yd" +
+          " <span>(" + plot.sizeSqM + " sq m · " + plot.sizeSqFt.toLocaleString("en-IN") + " sq ft)</span></dd>" +
+          "<dt>Facing</dt><dd>" + (plot.facing || "Confirm at enquiry") + "</dd>";
+      }
+      if (tags) {
+        tags.innerHTML = (plot.tags || []).map(function (tag) {
+          return '<span class="plot-tag">' + tag.replace(/-/g, " ") + "</span>";
+        }).join("");
+      }
+      if (price) {
+        price.innerHTML =
+          "<span>Starting price (per sq yd)</span><strong>" + priced.rateLabel + "</strong>" +
+          "<span style=\"display:block;margin-top:0.55rem\">Total (approx.)</span><strong>" + priced.totalLabel + "</strong>";
+      }
+      if (statusEl) {
+        statusEl.textContent = "Status: " + (plot.status || "Available");
+        statusEl.setAttribute("data-status", plot.status || "Available");
+      }
+      if (wa) wa.href = waUrlForPlot(plot);
+
+      section.querySelectorAll(".plot.is-active").forEach(function (node) {
+        node.classList.remove("is-active");
+      });
+      var tile = svg && svg.querySelector('.plot[data-plot="' + plot.number + '"]');
+      if (tile) tile.classList.add("is-active");
+
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
+    }
+
+    function closePlotDialog() {
+      if (!dialog) return;
+      if (typeof dialog.close === "function") dialog.close();
+      else dialog.removeAttribute("open");
+      section.querySelectorAll(".plot.is-active").forEach(function (node) {
+        node.classList.remove("is-active");
+      });
+    }
+
+    function setBandHighlight(bandKey) {
+      activeBand = bandKey;
+      if (!svg) return;
+      svg.querySelectorAll(".plot").forEach(function (node) {
+        var match = !bandKey || node.getAttribute("data-band") === bandKey;
+        node.classList.toggle("is-band-dim", Boolean(bandKey) && !match);
+        node.classList.toggle("is-band-hot", Boolean(bandKey) && match);
+      });
+      bandRows.forEach(function (row) {
+        var on = row.getAttribute("data-band") === bandKey;
+        row.classList.toggle("is-active", on);
+        row.setAttribute("aria-expanded", on ? "true" : "false");
+      });
+    }
+
+    function showBandChips(bandKey) {
+      if (!chipsEl) return;
+      if (!bandKey) {
+        chipsEl.hidden = true;
+        chipsEl.replaceChildren();
         return;
       }
-      if (origin && prev > 0) {
-        var ratio = planScale / prev;
-        planX = origin.x - (origin.x - planX) * ratio;
-        planY = origin.y - (origin.y - planY) * ratio;
-      }
-      applyPlanTransform();
+      var plots = (data.plots || []).filter(function (p) { return p.bandKey === bandKey; });
+      chipsEl.replaceChildren();
+      plots.forEach(function (plot) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "plots-chip " + statusClass(plot.status);
+        btn.textContent = padPlot(plot.number);
+        btn.setAttribute("aria-label", "Open plot " + padPlot(plot.number));
+        btn.addEventListener("click", function () {
+          openPlotDialog(plot);
+        });
+        chipsEl.appendChild(btn);
+      });
+      chipsEl.hidden = false;
     }
 
-    function togglePlanZoom(clientX, clientY) {
-      if (planScale > 1.05) {
-        resetPlanTransform();
+    function toggleBand(bandKey) {
+      if (activeBand === bandKey) {
+        setBandHighlight(null);
+        showBandChips(null);
         return;
       }
-      var origin = stageOrigin(clientX, clientY);
-      planScale = 2;
-      planX = -origin.x;
-      planY = -origin.y;
-      applyPlanTransform();
+      setBandHighlight(bandKey);
+      showBandChips(bandKey);
     }
 
-    function pointerDistance() {
-      if (pointers.size < 2) return 0;
-      var pts = Array.prototype.slice.call(pointers.values());
-      var dx = pts[0].x - pts[1].x;
-      var dy = pts[0].y - pts[1].y;
-      return Math.hypot(dx, dy);
+    hydratePrices();
+    renderMap();
+
+    if (svg) {
+      svg.addEventListener("click", function (event) {
+        var tile = event.target.closest(".plot");
+        if (!tile || !svg.contains(tile)) return;
+        var plot = plotByNumber[Number(tile.getAttribute("data-plot"))];
+        if (plot) openPlotDialog(plot);
+      });
+      svg.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        var tile = event.target.closest(".plot");
+        if (!tile || !svg.contains(tile)) return;
+        event.preventDefault();
+        var plot = plotByNumber[Number(tile.getAttribute("data-plot"))];
+        if (plot) openPlotDialog(plot);
+      });
     }
 
-    document.querySelectorAll(".site-plan-open").forEach(function (button) {
-      button.addEventListener("click", function () {
-        img.src = button.getAttribute("data-plan-src") || "";
-        img.alt = button.getAttribute("data-plan-alt") || "";
-        resetPlanTransform();
-        lockPageScroll();
-        lightbox.showModal();
+    bandRows.forEach(function (row) {
+      function activate() {
+        toggleBand(row.getAttribute("data-band"));
+      }
+      row.addEventListener("click", activate);
+      row.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activate();
+        }
       });
     });
 
-    function closePlanLightbox() {
-      if (lightbox.open) lightbox.close();
+    if (dialog) {
+      dialog.querySelectorAll("[data-plot-close]").forEach(function (btn) {
+        btn.addEventListener("click", closePlotDialog);
+      });
+      dialog.addEventListener("click", function (event) {
+        if (event.target === dialog) closePlotDialog();
+      });
+      dialog.addEventListener("cancel", function (event) {
+        event.preventDefault();
+        closePlotDialog();
+      });
     }
-
-    lightbox.querySelectorAll("[data-plan-close]").forEach(function (button) {
-      button.addEventListener("click", closePlanLightbox);
-    });
-
-    lightbox.addEventListener("close", function () {
-      resetPlanTransform();
-      pointers.clear();
-      img.removeAttribute("src");
-      img.alt = "";
-      unlockPageScroll();
-    });
-
-    lightbox.addEventListener("click", function (event) {
-      if (event.target === lightbox) closePlanLightbox();
-    });
-
-    stage.addEventListener("click", function (event) {
-      if (event.target === stage && planScale <= 1.01) closePlanLightbox();
-    });
-
-    stage.addEventListener("dblclick", function (event) {
-      event.preventDefault();
-      togglePlanZoom(event.clientX, event.clientY);
-    });
-
-    stage.addEventListener("wheel", function (event) {
-      event.preventDefault();
-      var origin = stageOrigin(event.clientX, event.clientY);
-      var factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
-      setPlanScale(planScale * factor, origin);
-    }, { passive: false });
-
-    stage.addEventListener("pointerdown", function (event) {
-      if (event.pointerType === "mouse" && event.button !== 0) return;
-      stage.setPointerCapture(event.pointerId);
-      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-      if (pointers.size === 2) {
-        pinchStartDist = pointerDistance();
-        pinchStartScale = planScale;
-      } else if (pointers.size === 1) {
-        pointerDownX = event.clientX;
-        pointerDownY = event.clientY;
-        panLastX = event.clientX;
-        panLastY = event.clientY;
-      }
-    });
-
-    stage.addEventListener("pointermove", function (event) {
-      if (!pointers.has(event.pointerId)) return;
-      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-      if (pointers.size === 2 && pinchStartDist > 0) {
-        var dist = pointerDistance();
-        if (!dist) return;
-        setPlanScale(pinchStartScale * (dist / pinchStartDist));
-        return;
-      }
-      if (pointers.size === 1 && planScale > 1.01) {
-        planX += event.clientX - panLastX;
-        planY += event.clientY - panLastY;
-        panLastX = event.clientX;
-        panLastY = event.clientY;
-        applyPlanTransform();
-      }
-    });
-
-    function endPlanPointer(event) {
-      if (!pointers.has(event.pointerId)) return;
-      var moved = Math.hypot(event.clientX - pointerDownX, event.clientY - pointerDownY);
-      var wasTap = pointers.size === 1 && planScale <= 1.01 && moved < 12;
-      var tapX = event.clientX;
-      var tapY = event.clientY;
-      pointers.delete(event.pointerId);
-      if (pointers.size < 2) pinchStartDist = 0;
-      if (pointers.size === 1) {
-        var remaining = pointers.values().next().value;
-        panLastX = remaining.x;
-        panLastY = remaining.y;
-      }
-      if (!wasTap || event.pointerType === "mouse") return;
-      var now = Date.now();
-      if (now - lastTapAt < 320 && Math.hypot(tapX - lastTapX, tapY - lastTapY) < 28) {
-        togglePlanZoom(tapX, tapY);
-        lastTapAt = 0;
-      } else {
-        lastTapAt = now;
-        lastTapX = tapX;
-        lastTapY = tapY;
-      }
-    }
-
-    stage.addEventListener("pointerup", endPlanPointer);
-    stage.addEventListener("pointercancel", endPlanPointer);
-
-    img.addEventListener("dragstart", function (event) {
-      event.preventDefault();
-    });
   })();
+
 })();
