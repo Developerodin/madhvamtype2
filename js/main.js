@@ -2,22 +2,57 @@
   var header = document.getElementById("siteHeader");
   var video = document.querySelector(".hero-video");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var navToggle = document.querySelector(".navbar-toggler");
+  var siteNav = document.getElementById("siteNav");
+  var brandLogos = document.querySelectorAll("[data-brand][data-logo-light][data-logo-dark]");
+  var navMenuOpen = false;
+
+  function headerNeedsDarkLogo() {
+    if (!header) return false;
+    if (header.classList.contains("is-solid") || header.classList.contains("is-scrolled")) return true;
+    return navMenuOpen;
+  }
+
+  function syncBrandLogo() {
+    var useDark = headerNeedsDarkLogo();
+    brandLogos.forEach(function (img) {
+      var next = useDark ? img.getAttribute("data-logo-dark") : img.getAttribute("data-logo-light");
+      if (!next || img.getAttribute("src") === next) return;
+      img.src = next;
+    });
+  }
+
+  brandLogos.forEach(function (img) {
+    var dark = img.getAttribute("data-logo-dark");
+    var light = img.getAttribute("data-logo-light");
+    if (dark) {
+      var preloadDark = new Image();
+      preloadDark.src = dark;
+    }
+    if (light) {
+      var preloadLight = new Image();
+      preloadLight.src = light;
+    }
+  });
 
   function onScroll() {
-    header.classList.toggle("is-scrolled", window.scrollY > 40);
+    if (header) header.classList.toggle("is-scrolled", window.scrollY > 40);
+    syncBrandLogo();
   }
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  var navToggle = document.querySelector(".navbar-toggler");
-  var siteNav = document.getElementById("siteNav");
   if (navToggle && siteNav) {
     siteNav.addEventListener("show.bs.collapse", function () {
+      navMenuOpen = true;
       navToggle.setAttribute("aria-label", "Close menu");
+      syncBrandLogo();
     });
     siteNav.addEventListener("hide.bs.collapse", function () {
+      navMenuOpen = false;
       navToggle.setAttribute("aria-label", "Open menu");
+      syncBrandLogo();
     });
   }
 
@@ -115,6 +150,7 @@
       { category: "roads", title: "Internal Roads", caption: "Wide. Well Planned. Serene.", png: "assets/ Street.png", webp: "assets/street.webp" },
       { category: "amenities", also: "landscapes", title: "Flower Garden", caption: "Green spaces for a healthier life.", png: "assets/ Courtyard.png", webp: "assets/courtyard.webp" },
       { category: "amenities", title: "Badminton Court", caption: "A court set among the trees.", png: "assets/Badminton Courtyard.png", webp: "assets/badminton-courtyard.webp" },
+      { category: "amenities", also: ["landscapes", "clubhouse"], title: "Club Madhavam", caption: "The heart of the community.", png: "assets/clubhouseelevation.png" },
       { category: "amenities", also: "clubhouse", title: "Multi Purpose Hall", caption: "A hall for a hundred, with a pantry.", png: "assets/Elegant Banquet Hall Interior.png", webp: "assets/elegant-banquet-hall-interior.webp" },
       { category: "amenities", also: "landscapes", title: "Lush Green Lawn with Jogging Track", caption: "A lawn to run, walk, and gather.", png: "assets/ Garden Jogging Park.png", webp: "assets/garden-jogging-park.webp" },
       { category: "amenities", also: "clubhouse", title: "Gymnasium", caption: "Training with a view of the gardens.", png: "assets/ Gym with Garden Views.png", webp: "assets/gym-with-garden-views.webp" },
@@ -148,7 +184,9 @@
     }
 
     function galleryMatches(slide, filter) {
-      return slide.category === filter || slide.also === filter;
+      if (slide.category === filter) return true;
+      if (Array.isArray(slide.also)) return slide.also.indexOf(filter) !== -1;
+      return slide.also === filter;
     }
 
     function galleryFeature() {

@@ -46,7 +46,7 @@
         "url": "https://www.ewdevelopers.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://madhavam.ewdevelopers.com/assets/radhe-radhe-madhavam-logo.webp"
+          "url": "https://madhavam.ewdevelopers.com/assets/hero.png"
         },
         "vatID": "09AADCE7736P1ZX",
         "address": {
@@ -266,10 +266,7 @@
       <div class="nav-bar">
         <a class="brand" href="#top">
           <span class="brand-slot">
-            <picture>
-              <source srcset="assets/radhe-radhe-madhavam-logo.webp" type="image/webp">
-              <img src="assets/Radhe%20Radhe%20Madhavam%20Logo.png" alt="" width="1759" height="894" data-alt="Radhe Radhe Madhavam" data-brand>
-            </picture>
+            <img class="brand-logo brand-logo--light" src="assets/hero.png" alt="" width="1547" height="612" data-alt="Radhe Radhe Madhavam" data-brand data-logo-light="assets/hero.png" data-logo-dark="assets/madhavam-logo-burgundy.webp">
             <span class="brand-fallback brand-name">Madhavam</span>
           </span>
         </a>
@@ -316,166 +313,113 @@
       </div>
     </section>
 
-    <section class="paper band plots" id="plots" aria-labelledby="plotsTitle">
-      <div class="sheet plots-sheet">
-        <div class="plots-top">
-          <div class="plots-head reveal">
-            <p class="plots-kicker"><span class="plots-kicker-rule" aria-hidden="true"></span>Plots and Pricing</p>
-            <h2 id="plotsTitle" class="plots-title">Plots and Pricing</h2>
-            <p class="plots-intro">Choose from a range of premium residential plots designed for modern living. Explore the available inventory, sizes and prices, and find the plot that fits your plans.</p>
-          </div>
-
-          <figure class="plots-map reveal" id="plotsMap" aria-label="Interactive site plan">
-            <div class="plots-map-scroll">
-              <svg class="plots-map-svg" id="plotsMapSvg" viewBox="0 0 1079 577" role="group" aria-label="Madhavam plot layout — tap a plot for details"></svg>
-            </div>
-            <p class="plots-map-hint" id="plotsMapHint">
-              <span class="plots-map-hint-ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 11.2V6.8a1.8 1.8 0 1 1 3.6 0v1.4"/><path d="M12.6 8.2V6.5a1.5 1.5 0 1 1 3 0v2.2"/><path d="M15.6 8.7V7.4a1.4 1.4 0 1 1 2.8 0v4.8c0 3.2-2 6.3-5.2 7.3-.5.2-1 .3-1.5.3H12c-3.3 0-6-2.5-6-5.6v-2.1a1.7 1.7 0 0 1 3.4 0v.9"/></svg>
+    <section class="location band" id="location">
+      <div class="sheet">
+        <h2 class="location-title reveal"><span class="location-title-line">A Place to Own</span><span class="location-title-main">A Life to Cherish.</span></h2>
+        <div class="title-arrows" aria-hidden="true">
+          <span class="pillar-arrow pillar-arrow--flip"></span>
+          <span class="pillar-arrow"></span>
+        </div>
+        <div class="location-board reveal">
+          <ul class="location-col location-col-left">
+            <li class="loc-item loc-item-left">
+              <span class="loc-ico loc-ico-temple" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Akshardham Temple</strong>
+                <span>25 Minutes</span>
               </span>
-              Tap a plot to view details
-            </p>
-            <ul class="plots-legend" aria-label="Plot status legend">
-              <li><span class="plots-dot is-available" aria-hidden="true"></span>Available</li>
-              <li><span class="plots-dot is-booked" aria-hidden="true"></span>Booked</li>
-              <li><span class="plots-dot is-sold" aria-hidden="true"></span>Sold</li>
-            </ul>
-            <span class="plots-compass" aria-hidden="true" title="North">
-              <svg viewBox="0 0 40 40" width="36" height="36">
-                <circle cx="20" cy="20" r="18" fill="rgba(255,255,255,0.88)" stroke="#6a1b1b" stroke-width="1.2"/>
-                <path d="M20 8l4.5 18h-3.2l-1.3-5.2-1.3 5.2H15.5L20 8z" fill="#6a1b1b"/>
-                <text x="20" y="34" text-anchor="middle" font-size="7" font-family="Outfit, sans-serif" fill="#6a1b1b" font-weight="600">N</text>
-              </svg>
-            </span>
-          </figure>
-        </div>
+              <span class="loc-line" aria-hidden="true"></span>
+            </li>
+            <li class="loc-item loc-item-left">
+              <span class="loc-ico loc-ico-metro" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Hindon River Metro</strong>
+                <span>7 Minutes</span>
+              </span>
+              <span class="loc-line" aria-hidden="true"></span>
+            </li>
+            <li class="loc-item loc-item-left">
+              <span class="loc-ico loc-ico-bridge" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Elevated Road</strong>
+                <span>5 Minutes</span>
+              </span>
+              <span class="loc-line" aria-hidden="true"></span>
+            </li>
+            <li class="loc-item loc-item-left">
+              <span class="loc-ico loc-ico-regional" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Namo Bharat</strong>
+                <span>5 Minutes</span>
+              </span>
+              <span class="loc-line" aria-hidden="true"></span>
+            </li>
+          </ul>
 
-        <div class="plots-panel reveal">
-          <div class="plots-panel-head">
-            <div>
-              <h3 class="plots-panel-title">Plot Size Bands</h3>
-              <p class="plots-panel-note">Overview of available plots across different size ranges. Corner plots may differ in size (per brochure footnote).</p>
-            </div>
-            <span class="plots-total">Total Plots: <strong>87</strong></span>
-          </div>
+          <button type="button" class="location-map" id="locationMapOpen" aria-haspopup="dialog" aria-controls="locationMapDialog" aria-expanded="false">
+            <img src="assets/Screenshot%202026-10-08%20at%205.37.51%E2%80%AFPM.png" alt="" width="1448" height="1256">
+            <span class="location-map-cue">View map</span>
+          </button>
 
-          <div class="plots-table-wrap">
-            <table class="plots-table" id="plotsTable">
-              <thead>
-                <tr>
-                  <th scope="col">Plot Numbers</th>
-                  <th scope="col">Size (sq yd)</th>
-                  <th scope="col">No. of Plots</th>
-                  <th scope="col">Starting Price (per sq yd)</th>
-                  <th scope="col">Total Price (Approx.)</th>
-                  <th class="plots-table-chevron" aria-hidden="true"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="plots-band-row" data-band="1-27" data-size="120" tabindex="0" role="button" aria-expanded="false">
-                  <td>01 – 27</td>
-                  <td>120</td>
-                  <td>27</td>
-                  <td class="plots-rate" data-size="120">On request</td>
-                  <td class="plots-total-price" data-size="120">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-                <tr class="plots-band-row" data-band="28-36" data-size="125" tabindex="0" role="button" aria-expanded="false">
-                  <td>28 – 36</td>
-                  <td>125</td>
-                  <td>9</td>
-                  <td class="plots-rate" data-size="125">On request</td>
-                  <td class="plots-total-price" data-size="125">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-                <tr class="plots-band-row" data-band="37-60" data-size="100" tabindex="0" role="button" aria-expanded="false">
-                  <td>37 – 60</td>
-                  <td>100</td>
-                  <td>24</td>
-                  <td class="plots-rate" data-size="100">On request</td>
-                  <td class="plots-total-price" data-size="100">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-                <tr class="plots-band-row" data-band="61-71" data-size="143" tabindex="0" role="button" aria-expanded="false">
-                  <td>61 – 71</td>
-                  <td>143</td>
-                  <td>11</td>
-                  <td class="plots-rate" data-size="143">On request</td>
-                  <td class="plots-total-price" data-size="143">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-                <tr class="plots-band-row" data-band="72-73" data-size="175" tabindex="0" role="button" aria-expanded="false">
-                  <td>72 – 73</td>
-                  <td>175</td>
-                  <td>2</td>
-                  <td class="plots-rate" data-size="175">On request</td>
-                  <td class="plots-total-price" data-size="175">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-                <tr class="plots-band-row" data-band="76-79" data-size="100" tabindex="0" role="button" aria-expanded="false">
-                  <td>76 – 79</td>
-                  <td>100</td>
-                  <td>4</td>
-                  <td class="plots-rate" data-size="100">On request</td>
-                  <td class="plots-total-price" data-size="100">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-                <tr class="plots-band-row" data-band="80-89" data-size="103" tabindex="0" role="button" aria-expanded="false">
-                  <td>80 – 89</td>
-                  <td>103</td>
-                  <td>10</td>
-                  <td class="plots-rate" data-size="103">On request</td>
-                  <td class="plots-total-price" data-size="103">On request</td>
-                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="plots-band-chips" id="plotsBandChips" hidden></div>
-        </div>
-
-        <ul class="plots-payment reveal" aria-label="Payment plan highlights">
-          <li>Booking amount and milestones shared at enquiry</li>
-          <li>Installments as per Builder-Buyer Agreement</li>
-          <li>Final charges as per registered documents</li>
-        </ul>
-      </div>
-
-      <div class="plots-cta">
-        <div class="plots-cta-inner sheet">
-          <a class="plots-wa-btn" href="https://wa.me/918069982711?text=Hi%2C%20I%27d%20like%20the%20latest%20pricing%20and%20inventory%20for%20Madhavam%2C%20Raj%20Nagar%20Extension." rel="noopener noreferrer">
-            <span class="plots-wa-ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.045L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            </span>
-            <span class="plots-wa-label">Get Latest Pricing &amp; Inventory on WhatsApp</span>
-            <span class="plots-wa-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-          </a>
-          <div class="plots-disclaimer">
-            <p>Indicative pricing only. Final prices, charges and availability are subject to change without prior notice.</p>
-            <p>Total 87 plots. Numbers 74 and 75 are not used in the brochure legend. Corner plots may differ in size (per brochure footnote).</p>
-          </div>
+          <ul class="location-col location-col-right">
+            <li class="loc-item loc-item-right">
+              <span class="loc-line" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Hindon Airport</strong>
+                <span>15 Minutes</span>
+              </span>
+              <span class="loc-ico loc-ico-airplane" aria-hidden="true"></span>
+            </li>
+            <li class="loc-item loc-item-right">
+              <span class="loc-line" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Eastern Peripheral Expressway</strong>
+                <span>10 Minutes</span>
+              </span>
+              <span class="loc-ico loc-ico-road" aria-hidden="true"></span>
+            </li>
+            <li class="loc-item loc-item-right">
+              <span class="loc-line" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Railway Station</strong>
+                <span>8 Minutes</span>
+              </span>
+              <span class="loc-ico loc-ico-train" aria-hidden="true"></span>
+            </li>
+            <li class="loc-item loc-item-right">
+              <span class="loc-line" aria-hidden="true"></span>
+              <span class="loc-copy">
+                <strong>Proposed BCCI Cricket Stadium</strong>
+                <span>10 Minutes</span>
+              </span>
+              <span class="loc-ico loc-ico-cricket" aria-hidden="true"></span>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="plots-disclaimer-mobile sheet">
-        <span class="plots-disclaimer-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
-        </span>
-        <p>Indicative pricing only. Final prices, charges and availability are subject to change without prior notice. Total 87 plots. Numbers 74 and 75 are not used in the brochure legend. Corner plots may differ in size (per brochure footnote).</p>
+      <img class="location-horizon" src="assets/%E0%A4%B6%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%95%E0%A5%83%E0%A4%B7%E0%A5%8D%E0%A4%A3%20%E0%A4%97%E0%A5%8B%E0%A4%B5%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%20%E0%A4%B8%E0%A5%81%E0%A4%A8%E0%A4%B9%E0%A4%B0%E0%A5%80%20%E0%A4%AA%E0%A4%B9%E0%A4%BE%E0%A4%A1%E0%A4%BC%E0%A4%BF%E0%A4%AF%E0%A4%BE%E0%A4%81.png" alt="" width="1792" height="877">
+
+      <div class="location-connect reveal">
+        <p class="location-connect-kicker">Well Connected</p>
+        <h3 class="location-connect-title">
+          <span class="location-connect-lead">Everything</span>
+          <span class="location-connect-accent">within reach.</span>
+        </h3>
       </div>
 
-      <dialog class="plot-dialog" id="plotDialog" aria-labelledby="plotDialogTitle">
-        <div class="plot-dialog-card">
-          <button type="button" class="plot-dialog-close" data-plot-close aria-label="Close plot details">&times;</button>
-          <p class="plot-dialog-kicker">Plot details</p>
-          <h3 class="plot-dialog-title" id="plotDialogTitle">Plot —</h3>
-          <dl class="plot-dialog-meta" id="plotDialogMeta"></dl>
-          <div class="plot-dialog-tags" id="plotDialogTags"></div>
-          <div class="plot-dialog-price" id="plotDialogPrice"></div>
-          <p class="plot-dialog-status" id="plotDialogStatus"></p>
-          <a class="plot-dialog-wa" id="plotDialogWa" href="https://wa.me/918069982711" rel="noopener noreferrer">Enquire about this plot</a>
+      <dialog class="map-dialog" id="locationMapDialog" aria-labelledby="locationMapTitle">
+        <div class="map-dialog-bar">
+          <p id="locationMapTitle">Madhavam location map</p>
+          <div class="map-dialog-tools">
+            <button type="button" data-map-zoom="out" aria-label="Zoom out">−</button>
+            <button type="button" data-map-zoom="in" aria-label="Zoom in">+</button>
+            <button type="button" data-map-zoom="reset">Reset</button>
+            <button type="button" class="map-dialog-close" data-map-close aria-label="Close map">Close</button>
+          </div>
+        </div>
+        <div class="map-dialog-stage" id="locationMapStage">
+          <img id="locationMapImg" src="assets/Screenshot%202026-10-08%20at%205.37.51%E2%80%AFPM.png" alt="Connectivity map showing Madhavam near Harnandipuram, Hindon Airport, Meerut Road, and nearby landmarks" draggable="false">
         </div>
       </dialog>
     </section>
@@ -655,113 +599,166 @@
       </div>
     </section>
 
-    <section class="location band" id="location">
-      <div class="sheet">
-        <h2 class="location-title reveal"><span class="location-title-line">A Place to Own</span><span class="location-title-main">A Life to Cherish.</span></h2>
-        <div class="title-arrows" aria-hidden="true">
-          <span class="pillar-arrow pillar-arrow--flip"></span>
-          <span class="pillar-arrow"></span>
-        </div>
-        <div class="location-board reveal">
-          <ul class="location-col location-col-left">
-            <li class="loc-item loc-item-left">
-              <span class="loc-ico loc-ico-temple" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Akshardham Temple</strong>
-                <span>25 Minutes</span>
-              </span>
-              <span class="loc-line" aria-hidden="true"></span>
-            </li>
-            <li class="loc-item loc-item-left">
-              <span class="loc-ico loc-ico-metro" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Hindon River Metro</strong>
-                <span>7 Minutes</span>
-              </span>
-              <span class="loc-line" aria-hidden="true"></span>
-            </li>
-            <li class="loc-item loc-item-left">
-              <span class="loc-ico loc-ico-bridge" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Elevated Road</strong>
-                <span>5 Minutes</span>
-              </span>
-              <span class="loc-line" aria-hidden="true"></span>
-            </li>
-            <li class="loc-item loc-item-left">
-              <span class="loc-ico loc-ico-regional" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Namo Bharat</strong>
-                <span>5 Minutes</span>
-              </span>
-              <span class="loc-line" aria-hidden="true"></span>
-            </li>
-          </ul>
+    <section class="paper band plots" id="plots" aria-labelledby="plotsTitle">
+      <div class="sheet plots-sheet">
+        <div class="plots-top">
+          <div class="plots-head reveal">
+            <p class="plots-kicker"><span class="plots-kicker-rule" aria-hidden="true"></span>Plots and Pricing</p>
+            <h2 id="plotsTitle" class="plots-title">Plots and Pricing</h2>
+            <p class="plots-intro">Choose from a range of premium residential plots designed for modern living. Explore the available inventory, sizes and prices, and find the plot that fits your plans.</p>
+          </div>
 
-          <button type="button" class="location-map" id="locationMapOpen" aria-haspopup="dialog" aria-controls="locationMapDialog" aria-expanded="false">
-            <img src="assets/Screenshot%202026-10-08%20at%205.37.51%E2%80%AFPM.png" alt="" width="1448" height="1256">
-            <span class="location-map-cue">View map</span>
-          </button>
-
-          <ul class="location-col location-col-right">
-            <li class="loc-item loc-item-right">
-              <span class="loc-line" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Hindon Airport</strong>
-                <span>15 Minutes</span>
+          <figure class="plots-map reveal" id="plotsMap" aria-label="Interactive site plan">
+            <div class="plots-map-scroll">
+              <svg class="plots-map-svg" id="plotsMapSvg" viewBox="0 0 1079 577" role="group" aria-label="Madhavam plot layout — tap a plot for details"></svg>
+            </div>
+            <p class="plots-map-hint" id="plotsMapHint">
+              <span class="plots-map-hint-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 11.2V6.8a1.8 1.8 0 1 1 3.6 0v1.4"/><path d="M12.6 8.2V6.5a1.5 1.5 0 1 1 3 0v2.2"/><path d="M15.6 8.7V7.4a1.4 1.4 0 1 1 2.8 0v4.8c0 3.2-2 6.3-5.2 7.3-.5.2-1 .3-1.5.3H12c-3.3 0-6-2.5-6-5.6v-2.1a1.7 1.7 0 0 1 3.4 0v.9"/></svg>
               </span>
-              <span class="loc-ico loc-ico-airplane" aria-hidden="true"></span>
-            </li>
-            <li class="loc-item loc-item-right">
-              <span class="loc-line" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Eastern Peripheral Expressway</strong>
-                <span>10 Minutes</span>
-              </span>
-              <span class="loc-ico loc-ico-road" aria-hidden="true"></span>
-            </li>
-            <li class="loc-item loc-item-right">
-              <span class="loc-line" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Railway Station</strong>
-                <span>8 Minutes</span>
-              </span>
-              <span class="loc-ico loc-ico-train" aria-hidden="true"></span>
-            </li>
-            <li class="loc-item loc-item-right">
-              <span class="loc-line" aria-hidden="true"></span>
-              <span class="loc-copy">
-                <strong>Proposed BCCI Cricket Stadium</strong>
-                <span>10 Minutes</span>
-              </span>
-              <span class="loc-ico loc-ico-cricket" aria-hidden="true"></span>
-            </li>
-          </ul>
+              Tap a plot to view details
+            </p>
+            <ul class="plots-legend" aria-label="Plot status legend">
+              <li><span class="plots-dot is-available" aria-hidden="true"></span>Available</li>
+              <li><span class="plots-dot is-booked" aria-hidden="true"></span>Booked</li>
+              <li><span class="plots-dot is-sold" aria-hidden="true"></span>Sold</li>
+            </ul>
+            <span class="plots-compass" aria-hidden="true" title="North">
+              <svg viewBox="0 0 40 40" width="36" height="36">
+                <circle cx="20" cy="20" r="18" fill="rgba(255,255,255,0.88)" stroke="#6a1b1b" stroke-width="1.2"/>
+                <path d="M20 8l4.5 18h-3.2l-1.3-5.2-1.3 5.2H15.5L20 8z" fill="#6a1b1b"/>
+                <text x="20" y="34" text-anchor="middle" font-size="7" font-family="Outfit, sans-serif" fill="#6a1b1b" font-weight="600">N</text>
+              </svg>
+            </span>
+          </figure>
         </div>
+
+        <div class="plots-panel reveal">
+          <div class="plots-panel-head">
+            <div>
+              <h3 class="plots-panel-title">Plot Size Bands</h3>
+              <p class="plots-panel-note">Overview of available plots across different size ranges. Corner plots may differ in size (per brochure footnote).</p>
+            </div>
+            <span class="plots-total">Total Plots: <strong>87</strong></span>
+          </div>
+
+          <div class="plots-table-wrap">
+            <table class="plots-table" id="plotsTable">
+              <thead>
+                <tr>
+                  <th scope="col">Plot Numbers</th>
+                  <th scope="col">Size (sq yd)</th>
+                  <th scope="col">No. of Plots</th>
+                  <th scope="col">Starting Price (per sq yd)</th>
+                  <th scope="col">Total Price (Approx.)</th>
+                  <th class="plots-table-chevron" aria-hidden="true"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="plots-band-row" data-band="1-27" data-size="120" tabindex="0" role="button" aria-expanded="false">
+                  <td>01 – 27</td>
+                  <td>120</td>
+                  <td>27</td>
+                  <td class="plots-rate" data-size="120">On request</td>
+                  <td class="plots-total-price" data-size="120">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row" data-band="28-36" data-size="125" tabindex="0" role="button" aria-expanded="false">
+                  <td>28 – 36</td>
+                  <td>125</td>
+                  <td>9</td>
+                  <td class="plots-rate" data-size="125">On request</td>
+                  <td class="plots-total-price" data-size="125">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row" data-band="37-60" data-size="100" tabindex="0" role="button" aria-expanded="false">
+                  <td>37 – 60</td>
+                  <td>100</td>
+                  <td>24</td>
+                  <td class="plots-rate" data-size="100">On request</td>
+                  <td class="plots-total-price" data-size="100">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row" data-band="61-71" data-size="143" tabindex="0" role="button" aria-expanded="false">
+                  <td>61 – 71</td>
+                  <td>143</td>
+                  <td>11</td>
+                  <td class="plots-rate" data-size="143">On request</td>
+                  <td class="plots-total-price" data-size="143">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row" data-band="72-73" data-size="175" tabindex="0" role="button" aria-expanded="false">
+                  <td>72 – 73</td>
+                  <td>175</td>
+                  <td>2</td>
+                  <td class="plots-rate" data-size="175">On request</td>
+                  <td class="plots-total-price" data-size="175">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row" data-band="76-79" data-size="100" tabindex="0" role="button" aria-expanded="false">
+                  <td>76 – 79</td>
+                  <td>100</td>
+                  <td>4</td>
+                  <td class="plots-rate" data-size="100">On request</td>
+                  <td class="plots-total-price" data-size="100">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row" data-band="80-89" data-size="103" tabindex="0" role="button" aria-expanded="false">
+                  <td>80 – 89</td>
+                  <td>103</td>
+                  <td>10</td>
+                  <td class="plots-rate" data-size="103">On request</td>
+                  <td class="plots-total-price" data-size="103">On request</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="plots-band-chips" id="plotsBandChips" hidden></div>
+        </div>
+
+        <ul class="plots-payment reveal" aria-label="Payment plan highlights">
+          <li>Booking amount and milestones shared at enquiry</li>
+          <li>Installments as per Builder-Buyer Agreement</li>
+          <li>Final charges as per registered documents</li>
+        </ul>
       </div>
 
-      <img class="location-horizon" src="assets/%E0%A4%B6%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%95%E0%A5%83%E0%A4%B7%E0%A5%8D%E0%A4%A3%20%E0%A4%97%E0%A5%8B%E0%A4%B5%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%20%E0%A4%B8%E0%A5%81%E0%A4%A8%E0%A4%B9%E0%A4%B0%E0%A5%80%20%E0%A4%AA%E0%A4%B9%E0%A4%BE%E0%A4%A1%E0%A4%BC%E0%A4%BF%E0%A4%AF%E0%A4%BE%E0%A4%81.png" alt="" width="1792" height="877">
-
-      <div class="location-connect reveal">
-        <p class="location-connect-kicker">Well Connected</p>
-        <h3 class="location-connect-title">
-          <span class="location-connect-lead">Everything</span>
-          <span class="location-connect-accent">within reach.</span>
-        </h3>
-      </div>
-
-      <dialog class="map-dialog" id="locationMapDialog" aria-labelledby="locationMapTitle">
-        <div class="map-dialog-bar">
-          <p id="locationMapTitle">Madhavam location map</p>
-          <div class="map-dialog-tools">
-            <button type="button" data-map-zoom="out" aria-label="Zoom out">−</button>
-            <button type="button" data-map-zoom="in" aria-label="Zoom in">+</button>
-            <button type="button" data-map-zoom="reset">Reset</button>
-            <button type="button" class="map-dialog-close" data-map-close aria-label="Close map">Close</button>
+      <div class="plots-cta">
+        <div class="plots-cta-inner sheet">
+          <a class="plots-wa-btn" href="https://wa.me/918069982711?text=Hi%2C%20I%27d%20like%20the%20latest%20pricing%20and%20inventory%20for%20Madhavam%2C%20Raj%20Nagar%20Extension." rel="noopener noreferrer">
+            <span class="plots-wa-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.045L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </span>
+            <span class="plots-wa-label">Get Latest Pricing &amp; Inventory on WhatsApp</span>
+            <span class="plots-wa-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+          <div class="plots-disclaimer">
+            <p>Indicative pricing only. Final prices, charges and availability are subject to change without prior notice.</p>
+            <p>Total 87 plots. Numbers 74 and 75 are not used in the brochure legend. Corner plots may differ in size (per brochure footnote).</p>
           </div>
         </div>
-        <div class="map-dialog-stage" id="locationMapStage">
-          <img id="locationMapImg" src="assets/Screenshot%202026-10-08%20at%205.37.51%E2%80%AFPM.png" alt="Connectivity map showing Madhavam near Harnandipuram, Hindon Airport, Meerut Road, and nearby landmarks" draggable="false">
+      </div>
+
+      <div class="plots-disclaimer-mobile sheet">
+        <span class="plots-disclaimer-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+        </span>
+        <p>Indicative pricing only. Final prices, charges and availability are subject to change without prior notice. Total 87 plots. Numbers 74 and 75 are not used in the brochure legend. Corner plots may differ in size (per brochure footnote).</p>
+      </div>
+
+      <dialog class="plot-dialog" id="plotDialog" aria-labelledby="plotDialogTitle">
+        <div class="plot-dialog-card">
+          <button type="button" class="plot-dialog-close" data-plot-close aria-label="Close plot details">&times;</button>
+          <p class="plot-dialog-kicker">Plot details</p>
+          <h3 class="plot-dialog-title" id="plotDialogTitle">Plot —</h3>
+          <dl class="plot-dialog-meta" id="plotDialogMeta"></dl>
+          <div class="plot-dialog-tags" id="plotDialogTags"></div>
+          <div class="plot-dialog-price" id="plotDialogPrice"></div>
+          <p class="plot-dialog-status" id="plotDialogStatus"></p>
+          <a class="plot-dialog-wa" id="plotDialogWa" href="https://wa.me/918069982711" rel="noopener noreferrer">Enquire about this plot</a>
         </div>
       </dialog>
     </section>
@@ -1110,8 +1107,7 @@
       <div class="footer-brand">
         <a class="footer-logo" href="#top">
           <picture>
-            <source srcset="assets/radhe-radhe-madhavam-logo.webp" type="image/webp">
-            <img src="assets/Radhe%20Radhe%20Madhavam%20Logo.png" alt="Radhe Radhe Madhavam" width="1759" height="894">
+            <img src="assets/hero.png" alt="Radhe Radhe Madhavam" width="1547" height="612">
           </picture>
         </a>
         <p class="footer-tagline">Building vibrant communities with thoughtful design, modern amenities and a greener tomorrow.</p>
