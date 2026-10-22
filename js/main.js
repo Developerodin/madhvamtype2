@@ -43,6 +43,31 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  var waFloat = document.querySelector(".wa-float");
+  var hero = document.querySelector(".hero");
+  if (waFloat && hero) {
+    function syncWaFloat(heroInView) {
+      waFloat.classList.toggle("is-hero-hidden", heroInView);
+    }
+
+    if ("IntersectionObserver" in window) {
+      var waHeroObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          syncWaFloat(entry.isIntersecting);
+        });
+      }, { threshold: 0 });
+      waHeroObserver.observe(hero);
+      syncWaFloat(true);
+    } else {
+      function syncWaFloatFallback() {
+        syncWaFloat(window.scrollY < hero.offsetHeight);
+      }
+      syncWaFloatFallback();
+      window.addEventListener("scroll", syncWaFloatFallback, { passive: true });
+      window.addEventListener("resize", syncWaFloatFallback);
+    }
+  }
+
   if (navToggle && siteNav) {
     siteNav.addEventListener("show.bs.collapse", function () {
       navMenuOpen = true;
@@ -94,33 +119,34 @@
   var nameInput = document.getElementById("fullName");
   var phoneInput = document.getElementById("phone");
   var messageWrap = document.getElementById("messageWrap");
-
-  function toggleMessage() {
-    var ready = nameInput.value.trim().length > 1 && phoneInput.value.replace(/\D/g, "").length >= 10;
-    messageWrap.hidden = !ready;
-  }
-
-  nameInput.addEventListener("input", toggleMessage);
-  phoneInput.addEventListener("input", function () {
-    phoneInput.setCustomValidity("");
-    toggleMessage();
-  });
-
   var form = document.getElementById("enquiryForm");
   var success = document.getElementById("enquirySuccess");
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    var digits = phoneInput.value.replace(/\D/g, "");
-    if (digits.length < 10) phoneInput.setCustomValidity("Enter a phone number with at least 10 digits.");
-    else phoneInput.setCustomValidity("");
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      return;
+  if (form && nameInput && phoneInput && messageWrap) {
+    function toggleMessage() {
+      var ready = nameInput.value.trim().length > 1 && phoneInput.value.replace(/\D/g, "").length >= 10;
+      messageWrap.hidden = !ready;
     }
-    form.hidden = true;
-    success.hidden = false;
-  });
+
+    nameInput.addEventListener("input", toggleMessage);
+    phoneInput.addEventListener("input", function () {
+      phoneInput.setCustomValidity("");
+      toggleMessage();
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var digits = phoneInput.value.replace(/\D/g, "");
+      if (digits.length < 10) phoneInput.setCustomValidity("Enter a phone number with at least 10 digits.");
+      else phoneInput.setCustomValidity("");
+      if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        return;
+      }
+      form.hidden = true;
+      if (success) success.hidden = false;
+    });
+  }
 
   var siteNav = document.getElementById("siteNav");
 

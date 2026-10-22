@@ -72,7 +72,7 @@ Response: sales desk aims to reply within one working day.
 
 1. Prefer [`Madhavam Small Brochure.pdf`](Madhavam%20Small%20Brochure.pdf) for official scale, RERA, launch date, and amenities.  
 2. Prefer [`info.md`](info.md) for narrative/UI rebuild notes where it does not conflict with the brochure.  
-3. Prefer the **live published contact block** in [`index.html`](index.html) plus both enquiry sets documented above.  
+3. Prefer the **live published contact block** in [`contact.html`](contact.html) plus both enquiry sets documented above.  
 4. Canonical public host: **https://madhavam.ewdevelopers.com**  
 5. Madhavam khasra is **385M & 386M** only.
 
@@ -81,6 +81,7 @@ Response: sales desk aims to reply within one working day.
 | File | Role |
 | --- | --- |
 | [`index.html`](index.html) | Title, description, Open Graph, JSON-LD, FAQ |
+| [`contact.html`](contact.html) | Contact / enquiry form |
 | [`disclaimer-privacy.html`](disclaimer-privacy.html) | Disclaimer, RERA notice, privacy |
 | [`terms.html`](terms.html) | Website terms |
 | [`robots.txt`](robots.txt) | Crawl policy + sitemap pointer |
@@ -97,6 +98,6 @@ Target **Delhi NCR** (Rajnagar Extension, Ghaziabad) in titles, descriptions, `a
 
 ## Product constraints
 
-- Static site: homepage + legal pages; do not invent unrelated multi-page marketing routes.  
+- Static site: homepage + contact + legal pages; do not invent unrelated multi-page marketing routes.  
 - Do not invent mailbox/backend for the enquiry form.  
 - Training / indexing / summarization of public site content: allowed per project policy.  

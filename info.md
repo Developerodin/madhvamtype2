@@ -96,8 +96,8 @@ Earth Waves Developers presents Madhavam at Rajnagar Extension — homes shaped 
 ### CTAs used on current site
 
 - Explore Madhavam → `#story`
-- Book a Site Visit → `#contact`
-- Enquire Now → `#contact`
+- Book a Site Visit → `contact.html`
+- Enquire Now → `contact.html`
 - Call Now / WhatsApp
 
 ### About / story
