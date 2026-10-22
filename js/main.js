@@ -174,6 +174,7 @@
       { category: "amenities", also: "landscapes", title: "Park Gazebo", caption: "Relax. Reconnect. Belong.", png: "assets/Golden-Hour Luxury Garden Pavilion.png", webp: "assets/golden-hour-luxury-garden-pavilion.webp" },
       { category: "amenities", title: "Kids Play Area", caption: "A Safer, Happier Tomorrow", png: "assets/Playground Oasis.png", webp: "assets/playground-oasis.webp" },
       { category: "roads", title: "Internal Roads", caption: "Wide. Well Planned. Serene.", png: "assets/ Street.png", webp: "assets/street.webp" },
+      { category: "roads", also: "landscapes", title: "Entrance Plaza", caption: "A grand welcome home.", placeholder: true },
       { category: "amenities", also: "landscapes", title: "Flower Garden", caption: "Green spaces for a healthier life.", png: "assets/ Courtyard.png", webp: "assets/courtyard.webp" },
       { category: "amenities", title: "Badminton Court", caption: "A court set among the trees.", png: "assets/Badminton Courtyard.png", webp: "assets/badminton-courtyard.webp" },
       { category: "amenities", also: ["landscapes", "clubhouse"], title: "Club Madhavam", caption: "The heart of the community.", png: "assets/clubhouseelevation.png" },
@@ -206,7 +207,7 @@
     var galleryDesktop = window.matchMedia("(min-width: 1100px)");
 
     function galleryHasMedia(slide) {
-      return !!(slide.png || slide.webp);
+      return !!(slide.png || slide.webp || slide.placeholder);
     }
 
     function galleryMatches(slide, filter) {
@@ -254,7 +255,7 @@
         ? '<p class="gallery-feature-title">' + title + "</p>"
         : '<p class="gallery-card-title">' + galleryEscape(slide.title) + "</p>" +
           (slide.caption ? '<p class="gallery-card-caption">' + galleryEscape(slide.caption) + "</p>" : "");
-      return '<article class="gallery-card' + (feature ? " gallery-feature" : "") + '"' + (hidden ? ' aria-hidden="true"' : "") + ">" +
+      return '<article class="gallery-card' + (feature ? " gallery-feature" : "") + (slide.placeholder ? " is-placeholder" : "") + '"' + (hidden ? ' aria-hidden="true"' : "") + ">" +
         '<div class="gallery-media">' + media + "</div>" +
         (feature ? galleryLeaf : "") +
         '<div class="gallery-caption">' + caption + "</div></article>";
