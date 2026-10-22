@@ -629,6 +629,35 @@
               <li class="plots-legend-status"><span class="plots-dot is-sold" aria-hidden="true"></span>Sold</li>
               <li class="plots-legend-status"><span class="plots-dot is-mortgage" aria-hidden="true"></span>Mortgage</li>
             </ul>
+
+            <aside class="cost-calc cost-calc--page reveal" id="costCalcPage" aria-labelledby="costCalcPageTitle" data-cost-calc="page">
+              <div class="cost-calc-head">
+                <p class="cost-calc-kicker">Estimate</p>
+                <h3 class="cost-calc-title" id="costCalcPageTitle">Cost calculator</h3>
+                <p class="cost-calc-lead">Select a plot for an indicative ownership estimate. Figures are placeholders until Earth Waves confirm final charges.</p>
+              </div>
+              <div class="cost-calc-field">
+                <span class="cost-calc-label" id="costCalcPlotLabel">Plot</span>
+                <div class="cost-calc-dd" id="costCalcDropdown">
+                  <button
+                    type="button"
+                    class="cost-calc-dd-trigger"
+                    id="costCalcPlotSelect"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-controls="costCalcPlotList"
+                    aria-labelledby="costCalcPlotLabel"
+                  >
+                    <span class="cost-calc-dd-value" id="costCalcPlotValue">Select a plot</span>
+                    <span class="cost-calc-dd-chevron" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l5 5 5-5"/></svg>
+                    </span>
+                  </button>
+                  <ul class="cost-calc-dd-menu" id="costCalcPlotList" role="listbox" aria-labelledby="costCalcPlotLabel" hidden></ul>
+                </div>
+              </div>
+              <div class="cost-calc-body" id="costCalcPageBody" hidden></div>
+            </aside>
           </div>
 
           <figure class="plots-map reveal" id="plotsMap" aria-label="Interactive site plan">
@@ -778,6 +807,7 @@
           <div class="plot-dialog-tags" id="plotDialogTags"></div>
           <div class="plot-dialog-price" id="plotDialogPrice"></div>
           <p class="plot-dialog-status" id="plotDialogStatus"></p>
+          <div class="cost-calc cost-calc--dialog" id="costCalcDialog" data-cost-calc="dialog" hidden></div>
           <a class="plot-dialog-wa" id="plotDialogWa" href="https://wa.me/918069982711" rel="noopener noreferrer">Enquire about this plot</a>
         </div>
       </dialog>
@@ -927,7 +957,7 @@
           </article>
         </div>
 
-        <div class="developer reveal">
+        <div class="developer reveal" id="about">
           <picture class="developer-bg">
             <source srcset="assets/elegant-banquet-hall-interior.webp" type="image/webp">
             <img src="assets/Elegant%20Banquet%20Hall%20Interior.png" alt="">
@@ -1186,6 +1216,18 @@
           </div>
         </div>
       </div>
+
+      <nav class="footer-quick" aria-label="Quick links">
+        <h2 class="footer-quick-title">Quick Links</h2>
+        <ul class="footer-quick-list">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#plots">Plots</a></li>
+          <li><a href="#location">Map</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#documents">Documentation</a></li>
+        </ul>
+      </nav>
 
       <div class="footer-vrule" aria-hidden="true"></div>
 
