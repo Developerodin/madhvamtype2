@@ -1542,7 +1542,7 @@ window.MADHAVAM_PLOTS = {
         "x": 262.0,
         "y": 102.0,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.833 X 16.883",
       "amountMonth": 4981.73,
@@ -1564,9 +1564,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 134.42,
+        "y": 140.51,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1588,9 +1588,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 166.84,
+        "y": 179.02,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1612,9 +1612,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 199.27,
+        "y": 217.53,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1636,9 +1636,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 231.69,
+        "y": 256.04,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1659,9 +1659,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 264.11,
+        "y": 294.55,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.5
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1682,9 +1682,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 296.53,
+        "y": 333.05,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1705,9 +1705,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 328.95,
+        "y": 371.56,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1728,9 +1728,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 361.37,
+        "y": 410.07,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1751,9 +1751,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 393.8,
+        "y": 448.58,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.100 X 16.883",
       "amountMonth": 4515.61,
@@ -1775,9 +1775,9 @@ window.MADHAVAM_PLOTS = {
       "bandKey": "61-71",
       "rect": {
         "x": 262.0,
-        "y": 426.22,
+        "y": 487.09,
         "w": 67.2,
-        "h": 30.98
+        "h": 38.51
       },
       "dimensions": "7.739 X 16.883",
       "amountMonth": 4921.88,
