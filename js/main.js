@@ -1021,59 +1021,113 @@
     (data.plots || []).forEach(function (plot) {
       plotByNumber[plot.number] = plot;
     });
+    if (data.commercial) {
+      data.commercial.isCommercial = true;
+      data.commercial.number = data.commercial.number || "commercial";
+      plotByNumber.commercial = data.commercial;
+    }
 
-    function formatInr(value) {
+    function formatInr(value, digits) {
       if (value == null || isNaN(value)) return null;
+      var maxDigits = digits == null ? 0 : digits;
       try {
         return new Intl.NumberFormat("en-IN", {
           style: "currency",
-          currency: data.pricing.currency || "INR",
-          maximumFractionDigits: 0
+          currency: (data.pricing && data.pricing.currency) || "INR",
+          maximumFractionDigits: maxDigits,
+          minimumFractionDigits: maxDigits > 0 && value % 1 !== 0 ? Math.min(2, maxDigits) : 0
         }).format(value);
       } catch (err) {
-        return "₹" + Math.round(value).toLocaleString("en-IN");
+        return "₹" + Number(value).toLocaleString("en-IN", {
+          maximumFractionDigits: maxDigits
+        });
       }
     }
 
     function padPlot(n) {
+      if (typeof n === "string") return n;
       return n < 10 ? "0" + n : String(n);
     }
 
-    function statusClass(status) {
-      var s = (status || "Available").toLowerCase();
-      if (s === "sold") return "is-sold";
-      if (s === "booked") return "is-booked";
-      return "is-available";
+    function plotLabel(plot) {
+      if (!plot) return "—";
+      if (plot.displayNumber) return String(plot.displayNumber);
+      if (plot.isCommercial) return "Commercial";
+      return padPlot(plot.number);
     }
 
-    function priceForSize(sizeSqYd) {
-      var rate = data.pricing && data.pricing.ratePerSqYd;
+    function formatArea(value, digits) {
+      if (value == null || isNaN(value)) return "—";
+      return Number(value).toLocaleString("en-IN", {
+        maximumFractionDigits: digits == null ? 2 : digits,
+        minimumFractionDigits: 0
+      });
+    }
+
+    function statusClass(status, plot) {
+      var s = (status || "Available").toLowerCase();
+      var classes = [];
+      if (s === "sold") classes.push("is-sold");
+      else if (s === "booked") classes.push("is-booked");
+      else classes.push("is-available");
+      if (plot && plot.mortgage) classes.push("is-mortgage");
+      return classes.join(" ");
+    }
+
+    function tentativeForPlot(plot) {
+      var rate = plot && plot.ratePerSqYd != null
+        ? plot.ratePerSqYd
+        : (data.pricing && data.pricing.ratePerSqYd);
+      var amount = plot && plot.amountMonth != null
+        ? plot.amountMonth
+        : (rate != null && plot && plot.sizeSqYd != null ? rate * plot.sizeSqYd : null);
       if (rate == null || rate === "") {
         return {
-          rateLabel: data.pricing.priceLabel || "On request",
-          totalLabel: data.pricing.priceLabel || "On request",
+          rateLabel: (data.pricing && data.pricing.priceLabel) || "On request",
+          amountLabel: (data.pricing && data.pricing.priceLabel) || "On request",
           rate: null,
-          total: null
+          amountMonth: null
         };
       }
-      var total = rate * sizeSqYd;
       return {
-        rateLabel: formatInr(rate),
-        totalLabel: formatInr(total),
+        rateLabel: formatInr(rate, 2),
+        amountLabel: amount != null ? formatInr(amount, 2) : "—",
         rate: rate,
-        total: total
+        amountMonth: amount
       };
+    }
+
+    function tentativeForSize(sizeSqYd) {
+      return tentativeForPlot({ sizeSqYd: sizeSqYd, ratePerSqYd: data.pricing && data.pricing.ratePerSqYd });
     }
 
     function hydratePrices() {
       section.querySelectorAll(".plots-rate").forEach(function (cell) {
         var size = Number(cell.getAttribute("data-size"));
-        cell.textContent = priceForSize(size).rateLabel;
+        cell.textContent = tentativeForSize(size).rateLabel;
       });
-      section.querySelectorAll(".plots-total-price").forEach(function (cell) {
+      section.querySelectorAll(".plots-amount-month").forEach(function (cell) {
         var size = Number(cell.getAttribute("data-size"));
-        cell.textContent = priceForSize(size).totalLabel;
+        var priced = tentativeForSize(size);
+        cell.textContent = priced.amountLabel;
       });
+    }
+
+    function hydrateBandTable() {
+      (data.bands || []).forEach(function (band) {
+        var row = section.querySelector('.plots-band-row[data-band="' + band.bandKey + '"]');
+        if (!row) return;
+        var sizeCell = row.querySelector("[data-band-size]");
+        if (sizeCell && band.sizeSqYdLabel) {
+          sizeCell.textContent = band.sizeSqYdLabel;
+        }
+        var countCell = row.querySelector("[data-band-count]");
+        if (countCell && band.count != null) {
+          countCell.textContent = String(band.count);
+        }
+      });
+      var totalEl = section.querySelector(".plots-total strong");
+      if (totalEl) totalEl.textContent = String((data.plots || []).length);
     }
 
     function el(name, attrs, text) {
@@ -1087,10 +1141,15 @@
       return node;
     }
 
+    function bandFill(bandKey) {
+      if (data.bandColors && data.bandColors[bandKey]) return data.bandColors[bandKey];
+      var band = (data.bands || []).find(function (b) { return b.bandKey === bandKey; });
+      return (band && band.color) || "#d8d0c4";
+    }
+
     function renderMap() {
       if (!svg) return;
-      var vb = data.viewBox || { width: 1079, height: 595 };
-      var bounds = data.layoutBounds || { x: 56, y: 56, w: vb.width - 112, h: vb.height - 112 };
+      var vb = data.viewBox || { width: 394, height: 849 };
       svg.setAttribute("viewBox", "0 0 " + vb.width + " " + vb.height);
       svg.replaceChildren();
 
@@ -1101,73 +1160,138 @@
         y: 0,
         width: vb.width,
         height: vb.height,
-        rx: 12
-      }));
-      bg.appendChild(el("rect", {
-        class: "plot-road",
-        x: bounds.x - 18,
-        y: bounds.y + bounds.h * 0.42,
-        width: bounds.w + 36,
-        height: 28,
-        rx: 6
-      }));
-      bg.appendChild(el("rect", {
-        class: "plot-road",
-        x: bounds.x + bounds.w * 0.38,
-        y: bounds.y - 12,
-        width: 26,
-        height: bounds.h + 24,
-        rx: 6
-      }));
-      bg.appendChild(el("rect", {
-        class: "plot-park",
-        x: bounds.x + bounds.w * 0.48,
-        y: bounds.y + bounds.h * 0.38,
-        width: bounds.w * 0.28,
-        height: bounds.h * 0.42,
         rx: 10
       }));
-      bg.appendChild(el("ellipse", {
-        class: "plot-water",
-        cx: bounds.x + bounds.w * 0.62,
-        cy: bounds.y + bounds.h * 0.58,
-        rx: 38,
-        ry: 22
-      }));
+
+      var voidRect = data.amenitiesVoid;
+      if (voidRect) {
+        bg.appendChild(el("rect", {
+          class: "plot-amenities-void",
+          x: voidRect.x,
+          y: voidRect.y,
+          width: voidRect.w,
+          height: voidRect.h,
+          rx: 4
+        }));
+      }
+
+      (data.roads || []).forEach(function (road) {
+        bg.appendChild(el("rect", {
+          class: "plot-road",
+          x: road.x,
+          y: road.y,
+          width: road.w,
+          height: road.h,
+          rx: 3
+        }));
+      });
       svg.appendChild(bg);
+
+      var commercial = data.commercial;
+      if (commercial && commercial.rect) {
+        var cr = commercial.rect;
+        var clickable = commercial.clickable !== false;
+        var cgAttrs = {
+          class: "plot plot-commercial " + statusClass(commercial.status || "Available", commercial) +
+            (clickable ? " is-clickable" : ""),
+          "data-plot": "commercial",
+          "data-band": "commercial",
+          "aria-label": [
+            "Commercial plot",
+            commercial.sizeSqYd ? commercial.sizeSqYd + " sq yd" : "",
+            commercial.status || "Available"
+          ].filter(Boolean).join(", ")
+        };
+        if (clickable) {
+          cgAttrs.role = "button";
+          cgAttrs.tabindex = "0";
+        } else {
+          cgAttrs["aria-hidden"] = "true";
+        }
+        var cg = el("g", cgAttrs);
+        cg.appendChild(el("rect", {
+          x: cr.x,
+          y: cr.y,
+          width: cr.w,
+          height: cr.h,
+          rx: 3
+        }));
+        var cSize = Math.max(8, Math.min(12, cr.w * 0.12));
+        var cLabel = el("text", {
+          x: cr.x + cr.w / 2,
+          y: cr.y + cr.h / 2 - cSize * 0.55,
+          "text-anchor": "middle",
+          "dominant-baseline": "central",
+          "font-size": String(cSize)
+        });
+        cLabel.appendChild(el("tspan", {
+          x: cr.x + cr.w / 2,
+          dy: "0"
+        }, "COMMERCIAL"));
+        cLabel.appendChild(el("tspan", {
+          x: cr.x + cr.w / 2,
+          dy: String(cSize * 1.25)
+        }, "PLOT"));
+        cg.appendChild(cLabel);
+        svg.appendChild(cg);
+      }
 
       var layer = el("g", { class: "plot-tiles" });
       (data.plots || []).forEach(function (plot) {
         var r = plot.rect || {};
         var status = plot.status || "Available";
+        var labelText = plotLabel(plot);
+        var cx = r.x + r.w / 2;
+        var cy = r.y + r.h / 2;
+        var badgeR = Math.max(5.5, Math.min(9, Math.min(r.w, r.h) * 0.32));
+        var fontSize = Math.max(5.5, Math.min(10, badgeR * (labelText.length > 2 ? 0.85 : 1.05)));
         var g = el("g", {
-          class: "plot " + statusClass(status),
+          class: "plot " + statusClass(status, plot),
           role: "button",
           tabindex: "0",
           "data-plot": String(plot.number),
           "data-band": plot.bandKey || "",
           "aria-label": [
-            "Plot " + padPlot(plot.number),
+            "Plot " + labelText,
             plot.sizeSqYd + " sq yd",
+            plot.dimensions ? plot.dimensions : "",
             plot.facing ? plot.facing + " facing" : "",
+            plot.mortgage ? "Mortgage" : "",
             (plot.tags || []).join(", "),
             status
           ].filter(Boolean).join(", ")
         });
-        g.appendChild(el("rect", {
+        var tile = el("rect", {
           x: r.x,
           y: r.y,
           width: r.w,
           height: r.h,
-          rx: 2
+          rx: 1.5
+        });
+        tile.setAttribute("fill", bandFill(plot.bandKey));
+        g.appendChild(tile);
+        if (plot.mortgage) {
+          g.appendChild(el("rect", {
+            class: "plot-mortgage-mark",
+            x: r.x + 1.2,
+            y: r.y + 1.2,
+            width: Math.max(3, r.w * 0.18),
+            height: Math.max(3, r.h * 0.18),
+            rx: 0.6
+          }));
+        }
+        g.appendChild(el("circle", {
+          class: "plot-badge",
+          cx: cx,
+          cy: cy,
+          r: badgeR
         }));
         var label = el("text", {
-          x: r.x + r.w / 2,
-          y: r.y + r.h / 2,
+          x: cx,
+          y: cy,
           "text-anchor": "middle",
           "dominant-baseline": "central"
-        }, padPlot(plot.number));
-        var fontSize = Math.max(8, Math.min(12, Math.min(r.w, r.h) * 0.38));
+        }, labelText);
         label.setAttribute("font-size", String(fontSize));
         g.appendChild(label);
         layer.appendChild(g);
@@ -1176,8 +1300,10 @@
     }
 
     function waUrlForPlot(plot) {
-      var msg = "Hi, I'd like details on Plot " + padPlot(plot.number) +
-        " (" + plot.sizeSqYd + " sq yd) at Madhavam, Raj Nagar Extension.";
+      var name = plot.isCommercial ? "the commercial plot" : ("Plot " + plotLabel(plot));
+      var sizeBit = plot.sizeSqYd != null ? " (" + plot.sizeSqYd + " sq yd)" : "";
+      var msg = "Hi, I'd like details on " + name + sizeBit +
+        " at Madhavam, Raj Nagar Extension.";
       return WA_BASE + "?text=" + encodeURIComponent(msg);
     }
 
@@ -1189,35 +1315,70 @@
       var price = document.getElementById("plotDialogPrice");
       var statusEl = document.getElementById("plotDialogStatus");
       var wa = document.getElementById("plotDialogWa");
-      var priced = priceForSize(plot.sizeSqYd);
+      var priced = tentativeForPlot(plot);
+      var label = plotLabel(plot);
 
-      if (title) title.textContent = "Plot " + padPlot(plot.number);
+      if (title) {
+        title.textContent = plot.isCommercial ? "Commercial Plot" : ("Plot " + label);
+      }
       if (meta) {
-        meta.innerHTML =
-          "<dt>Size</dt><dd>" + plot.sizeSqYd + " sq yd" +
-          " <span>(" + plot.sizeSqM + " sq m · " + plot.sizeSqFt.toLocaleString("en-IN") + " sq ft)</span></dd>" +
-          "<dt>Facing</dt><dd>" + (plot.facing || "Confirm at enquiry") + "</dd>";
+        var rows = [];
+        if (!plot.isCommercial) {
+          rows.push("<dt>Plot No</dt><dd>" + label + "</dd>");
+        }
+        if (plot.dimensions) {
+          rows.push("<dt>Size (L × B)</dt><dd>" + plot.dimensions + " <span>(m)</span></dd>");
+        }
+        rows.push("<dt>Area (sq m)</dt><dd>" + formatArea(plot.sizeSqM) + "</dd>");
+        rows.push("<dt>Area (sq yd)</dt><dd>" + formatArea(plot.sizeSqYd) + "</dd>");
+        if (plot.sizeSqFt != null) {
+          rows.push("<dt>Area (sq ft)</dt><dd>" + formatArea(plot.sizeSqFt, 0) + "</dd>");
+        }
+        if (!plot.isCommercial) {
+          rows.push("<dt>Facing</dt><dd>" + (plot.facing || "Confirm at enquiry") + "</dd>");
+        }
+        if (plot.bandKey && plot.bandKey !== "commercial") {
+          rows.push("<dt>Size band</dt><dd>" + plot.bandKey.replace("-", " – ") + "</dd>");
+        }
+        if (plot.mortgage) {
+          rows.push("<dt>List note</dt><dd>Plots being sent for mortgage</dd>");
+        }
+        meta.innerHTML = rows.join("");
       }
       if (tags) {
-        tags.innerHTML = (plot.tags || []).map(function (tag) {
-          return '<span class="plot-tag">' + tag.replace(/-/g, " ") + "</span>";
+        var tagList = (plot.tags || []).slice();
+        if (plot.isCommercial) tagList = ["commercial"].concat(tagList);
+        if (plot.displayNumber) tagList = ["list id " + plot.displayNumber].concat(tagList);
+        tags.innerHTML = tagList.map(function (tag) {
+          return '<span class="plot-tag">' + String(tag).replace(/-/g, " ") + "</span>";
         }).join("");
       }
       if (price) {
         price.innerHTML =
-          "<span>Starting price (per sq yd)</span><strong>" + priced.rateLabel + "</strong>" +
-          "<span style=\"display:block;margin-top:0.55rem\">Total (approx.)</span><strong>" + priced.totalLabel + "</strong>";
+          "<span>Tentative rate (per sq yd)</span><strong>" + priced.rateLabel + "</strong>" +
+          "<span style=\"display:block;margin-top:0.55rem\">Amount / month (as per list)</span><strong>" +
+          priced.amountLabel + "</strong>";
       }
       if (statusEl) {
-        statusEl.textContent = "Status: " + (plot.status || "Available");
+        var statusText = plot.status || "Available";
+        if (plot.mortgage) statusText += " · Mortgage";
+        statusEl.textContent = "Status: " + statusText;
         statusEl.setAttribute("data-status", plot.status || "Available");
       }
-      if (wa) wa.href = waUrlForPlot(plot);
+      if (wa) {
+        wa.href = waUrlForPlot(plot);
+        wa.textContent = plot.isCommercial
+          ? "Enquire about commercial plot"
+          : "Enquire about this plot";
+      }
 
       section.querySelectorAll(".plot.is-active").forEach(function (node) {
         node.classList.remove("is-active");
       });
-      var tile = svg && svg.querySelector('.plot[data-plot="' + plot.number + '"]');
+      var selector = plot.isCommercial
+        ? '.plot[data-plot="commercial"]'
+        : '.plot[data-plot="' + plot.number + '"]';
+      var tile = svg && svg.querySelector(selector);
       if (tile) tile.classList.add("is-active");
 
       if (typeof dialog.showModal === "function") dialog.showModal();
@@ -1256,13 +1417,19 @@
         return;
       }
       var plots = (data.plots || []).filter(function (p) { return p.bandKey === bandKey; });
+      if (bandKey === "commercial" && data.commercial) {
+        plots = [data.commercial];
+      }
       chipsEl.replaceChildren();
       plots.forEach(function (plot) {
         var btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "plots-chip " + statusClass(plot.status);
-        btn.textContent = padPlot(plot.number);
-        btn.setAttribute("aria-label", "Open plot " + padPlot(plot.number));
+        btn.className = "plots-chip " + statusClass(plot.status, plot);
+        btn.textContent = plot.isCommercial ? "Commercial" : plotLabel(plot);
+        btn.setAttribute(
+          "aria-label",
+          plot.isCommercial ? "Open commercial plot" : ("Open plot " + plotLabel(plot))
+        );
         btn.addEventListener("click", function () {
           openPlotDialog(plot);
         });
@@ -1279,25 +1446,49 @@
       }
       setBandHighlight(bandKey);
       showBandChips(bandKey);
+      if (bandKey === "commercial" && data.commercial) {
+        openPlotDialog(data.commercial);
+      }
+    }
+
+    function plotFromTile(tile) {
+      if (!tile) return null;
+      var key = tile.getAttribute("data-plot");
+      if (key === "commercial") return plotByNumber.commercial;
+      return plotByNumber[Number(key)];
     }
 
     hydratePrices();
+    hydrateBandTable();
     renderMap();
 
     if (svg) {
       svg.addEventListener("click", function (event) {
         var tile = event.target.closest(".plot");
         if (!tile || !svg.contains(tile)) return;
-        var plot = plotByNumber[Number(tile.getAttribute("data-plot"))];
-        if (plot) openPlotDialog(plot);
+        if (tile.classList.contains("plot-commercial") &&
+            !tile.classList.contains("is-clickable")) return;
+        var plot = plotFromTile(tile);
+        if (plot) {
+          /* Clear band dim so map colours stay full when opening a plot */
+          setBandHighlight(null);
+          showBandChips(null);
+          openPlotDialog(plot);
+        }
       });
       svg.addEventListener("keydown", function (event) {
         if (event.key !== "Enter" && event.key !== " ") return;
         var tile = event.target.closest(".plot");
         if (!tile || !svg.contains(tile)) return;
+        if (tile.classList.contains("plot-commercial") &&
+            !tile.classList.contains("is-clickable")) return;
         event.preventDefault();
-        var plot = plotByNumber[Number(tile.getAttribute("data-plot"))];
-        if (plot) openPlotDialog(plot);
+        var plot = plotFromTile(tile);
+        if (plot) {
+          setBandHighlight(null);
+          showBandChips(null);
+          openPlotDialog(plot);
+        }
       });
     }
 

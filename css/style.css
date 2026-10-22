@@ -3252,9 +3252,17 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   margin-bottom: 2.75rem;
 }
 
+.plots-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .plots-kicker {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.65rem;
   margin: 0 0 0.85rem;
   font-size: 0.8rem;
@@ -3276,14 +3284,29 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   color: var(--burgundy);
   font-size: clamp(2.75rem, 5.5vw, 4rem);
   line-height: 0.95;
+  text-align: center;
 }
 
 .plots-intro {
-  margin: 0;
+  margin: 0 auto;
   max-width: 34ch;
   color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.55;
+  text-align: center;
+}
+
+.plots-head .plots-map-hint {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 2.55rem;
+  margin-inline: auto;
+}
+
+.plots-head .plots-legend {
+  margin-top: 3rem;
+  margin-inline: auto;
 }
 
 .plots-map {
@@ -3291,44 +3314,63 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   margin: 0;
   border-radius: 1rem;
   background:
-    radial-gradient(ellipse at 70% 75%, rgba(90, 150, 110, 0.35), transparent 55%),
-    linear-gradient(160deg, #1f4d35 0%, #163728 45%, #0f2a1d 100%);
-  box-shadow: 0 18px 40px rgba(26, 40, 28, 0.18);
+    linear-gradient(165deg, #e8efe6 0%, #d5e0d4 40%, #c8d5c6 100%);
+  box-shadow: 0 18px 40px rgba(26, 40, 28, 0.12);
   overflow: hidden;
   min-height: 280px;
 }
 
 .plots-map-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-  padding: 1.25rem 1rem 2.75rem;
+  touch-action: pan-x pan-y;
+  padding: 1.1rem 1rem 1.25rem;
+  max-height: min(78vh, 920px);
 }
 
 .plots-map-svg {
   display: block;
-  width: 100%;
-  min-width: 820px;
+  width: min(100%, 400px);
   height: auto;
+  margin-inline: auto;
+  min-width: 240px;
 }
 
 .plots-map-svg .plot-ground {
-  fill: #2a5c3d;
+  fill: #dfe8dc;
 }
 
 .plots-map-svg .plot-road {
-  fill: #d7c4a8;
-  opacity: 0.55;
+  fill: #8a8a8a;
+  opacity: 0.92;
 }
 
-.plots-map-svg .plot-park {
-  fill: #3f7a52;
+.plots-map-svg .plot-amenities-void {
+  fill: #cfd9cc;
+  opacity: 0.7;
 }
 
-.plots-map-svg .plot-water {
-  fill: #6eb8d4;
-  opacity: 0.85;
+.plots-map-svg .plot-commercial:not(.is-clickable) {
+  pointer-events: none;
+}
+
+.plots-map-svg .plot-commercial.is-clickable {
+  cursor: pointer;
+}
+
+.plots-map-svg .plot-commercial rect {
+  fill: #f09ebc;
+  stroke: rgba(80, 40, 55, 0.35);
+  stroke-width: 1;
+}
+
+.plots-map-svg .plot-commercial text {
+  fill: #5a2a3a;
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  user-select: none;
 }
 
 .plots-map-svg .plot {
@@ -3337,49 +3379,80 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 }
 
 .plots-map-svg .plot rect {
-  stroke: rgba(40, 28, 18, 0.35);
-  stroke-width: 1;
-  transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+  stroke: rgba(40, 28, 18, 0.4);
+  stroke-width: 0.9;
+  transition: stroke 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.plots-map-svg .plot .plot-badge {
+  fill: rgba(255, 255, 255, 0.94);
+  stroke: rgba(40, 28, 18, 0.22);
+  stroke-width: 0.6;
+  pointer-events: none;
 }
 
 .plots-map-svg .plot text {
-  fill: #3a2a1e;
+  fill: #2a2218;
   font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   pointer-events: none;
   user-select: none;
 }
 
-.plots-map-svg .plot.is-available rect { fill: #f7f1e6; }
-.plots-map-svg .plot.is-booked rect { fill: #e2b84a; }
-.plots-map-svg .plot.is-sold rect { fill: #8b1e1e; }
-.plots-map-svg .plot.is-sold text { fill: #fff8ef; }
-
-.plots-map-svg .plot:hover rect,
-.plots-map-svg .plot:focus-visible rect,
-.plots-map-svg .plot.is-active rect {
-  stroke: #fff;
-  stroke-width: 2;
-  filter: brightness(1.05);
+/* Status overlays — band fill stays; status via opacity / stroke */
+.plots-map-svg .plot.is-booked rect {
+  stroke: #9a6b10;
+  stroke-width: 1.6;
+  stroke-dasharray: 3 2;
 }
 
+.plots-map-svg .plot.is-sold {
+  opacity: 0.48;
+}
+
+.plots-map-svg .plot.is-sold rect {
+  stroke: #5c1212;
+  stroke-width: 1.5;
+}
+
+.plots-map-svg .plot.is-mortgage > rect:first-of-type {
+  stroke: #1f3a5f;
+  stroke-width: 1.45;
+  stroke-dasharray: 2.5 1.75;
+}
+
+.plots-map-svg .plot .plot-mortgage-mark {
+  fill: #1f3a5f;
+  stroke: none;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.plots-map-svg .plot:hover > rect:first-of-type,
+.plots-map-svg .plot:focus-visible > rect:first-of-type,
+.plots-map-svg .plot.is-active > rect:first-of-type {
+  stroke: #1a1a1a;
+  stroke-width: 2.1;
+  filter: brightness(1.08);
+}
+
+/* Only while a Plot Size Bands row is selected — cleared when tapping the map */
 .plots-map-svg .plot.is-band-dim {
-  opacity: 0.35;
+  opacity: 0.42;
 }
 
-.plots-map-svg .plot.is-band-hot rect {
+.plots-map-svg .plot.is-band-hot > rect:first-of-type {
   stroke: var(--gold);
-  stroke-width: 2.25;
+  stroke-width: 2.35;
+  filter: brightness(1.06);
 }
 
 .plots-map-hint {
-  position: absolute;
-  left: 0.85rem;
-  bottom: 0.85rem;
-  z-index: 2;
+  position: static;
+  z-index: auto;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
   margin: 0;
   padding: 0.55rem 0.9rem;
@@ -3390,29 +3463,32 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.01em;
+  text-align: center;
   pointer-events: none;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 .plots-map-hint-ico {
   display: inline-flex;
   line-height: 0;
+  color: inherit;
 }
 
 .plots-legend {
-  position: absolute;
-  right: 0.85rem;
-  bottom: 0.85rem;
-  z-index: 2;
+  position: static;
+  z-index: auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem 0.9rem;
+  justify-content: center;
+  gap: 0.45rem 0.75rem;
   margin: 0;
-  padding: 0.5rem 0.85rem;
+  padding: 0.55rem 0.85rem;
   list-style: none;
-  border-radius: 999px;
-  background: rgba(255, 252, 247, 0.94);
-  font-size: 0.72rem;
+  border-radius: 1rem;
+  width: fit-content;
+  max-width: 100%;
+  background: rgba(255, 252, 247, 0.96);
+  font-size: 0.68rem;
   color: var(--ink);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
@@ -3432,6 +3508,16 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 .plots-dot.is-available { background: #3d9a5f; }
 .plots-dot.is-booked { background: #e2b84a; }
 .plots-dot.is-sold { background: #8b1e1e; }
+.plots-dot.is-mortgage {
+  background: #1f3a5f;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.plots-legend-status {
+  opacity: 0.9;
+  padding-left: 0.35rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
 
 .plots-compass {
   position: absolute;
@@ -3539,6 +3625,14 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
 .plots-table tbody tr:hover,
 .plots-table tbody tr.is-active {
   background: #f3e8d4;
+}
+
+.plots-band-note {
+  display: inline-block;
+  margin-left: 0.25rem;
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--muted, #6b6358);
 }
 
 .plots-table tbody tr:focus-visible {
@@ -3931,28 +4025,17 @@ section[id] { scroll-margin-top: calc(var(--header) + 12px); }
   }
 
   .plots-map-scroll {
-    padding: 3rem 0.75rem 3.1rem;
+    padding: 2.5rem 0.75rem 1.25rem;
   }
 
-  .plots-map-hint {
-    top: 0.65rem;
-    bottom: auto;
-    left: 0.65rem;
-    right: 0.65rem;
-    width: max-content;
-    max-width: calc(100% - 1.3rem);
+  .plots-head .plots-map-hint {
+    margin-top: 1rem;
     font-size: 0.72rem;
     padding: 0.5rem 0.75rem;
   }
 
-  .plots-legend {
-    left: 0.65rem;
-    right: 0.65rem;
-    bottom: 0.65rem;
-    width: max-content;
-    max-width: calc(100% - 1.3rem);
-    margin-inline: auto;
-    justify-content: center;
+  .plots-head .plots-legend {
+    margin-top: 0.85rem;
     font-size: 0.68rem;
     gap: 0.45rem 0.65rem;
     padding: 0.4rem 0.65rem;

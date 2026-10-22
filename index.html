@@ -249,7 +249,7 @@
             "name": "What plot sizes are available, and what is the current pricing?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Madhavam offers 87 residential plots in brochure size bands of about 100, 103, 120, 125, 143 and 175 sq yd (plot numbers 01–73 and 76–89; 74 and 75 are unused in the legend). Corner plots may differ in size. Current rates per sq yd, totals and live availability are confirmed by Earth Waves Developers — see the Plots and Pricing section on this page or enquire via WhatsApp +91 80699 82711, email admin@earthwavesdevelopers.com / sales@earthwavesdevelopers.com."
+              "text": "Madhavam offers 87 residential plots in brochure size bands of about 100, 103, 120, 125, 143 and 175 sq yd (plot numbers 01–73 and 76–89; 74 and 75 are unused in the legend). Corner plots may differ in size. Tentative rate and amount/month from the project plot list are shown on this page; final figures and live availability are confirmed by Earth Waves Developers — enquire via WhatsApp +91 80699 82711, email admin@earthwavesdevelopers.com / sales@earthwavesdevelopers.com."
             }
           }
         ]
@@ -610,23 +610,31 @@
             <p class="plots-kicker"><span class="plots-kicker-rule" aria-hidden="true"></span>Plots and Pricing</p>
             <h2 id="plotsTitle" class="plots-title">Plots and Pricing</h2>
             <p class="plots-intro">Choose from a range of premium residential plots designed for modern living. Explore the available inventory, sizes and prices, and find the plot that fits your plans.</p>
-          </div>
-
-          <figure class="plots-map reveal" id="plotsMap" aria-label="Interactive site plan">
-            <div class="plots-map-scroll">
-              <svg class="plots-map-svg" id="plotsMapSvg" viewBox="0 0 1079 577" role="group" aria-label="Madhavam plot layout — tap a plot for details"></svg>
-            </div>
             <p class="plots-map-hint" id="plotsMapHint">
               <span class="plots-map-hint-ico" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 11.2V6.8a1.8 1.8 0 1 1 3.6 0v1.4"/><path d="M12.6 8.2V6.5a1.5 1.5 0 1 1 3 0v2.2"/><path d="M15.6 8.7V7.4a1.4 1.4 0 1 1 2.8 0v4.8c0 3.2-2 6.3-5.2 7.3-.5.2-1 .3-1.5.3H12c-3.3 0-6-2.5-6-5.6v-2.1a1.7 1.7 0 0 1 3.4 0v.9"/></svg>
               </span>
               Tap a plot to view details
             </p>
-            <ul class="plots-legend" aria-label="Plot status legend">
-              <li><span class="plots-dot is-available" aria-hidden="true"></span>Available</li>
-              <li><span class="plots-dot is-booked" aria-hidden="true"></span>Booked</li>
-              <li><span class="plots-dot is-sold" aria-hidden="true"></span>Sold</li>
+            <ul class="plots-legend" aria-label="Plot size and status legend">
+              <li><span class="plots-dot" style="background:#E17B43" aria-hidden="true"></span>01–27 · 120 yd²</li>
+              <li><span class="plots-dot" style="background:#6781B8" aria-hidden="true"></span>28–36 · 125 yd²</li>
+              <li><span class="plots-dot" style="background:#E6DB29" aria-hidden="true"></span>37–60 · 100 yd²</li>
+              <li><span class="plots-dot" style="background:#BC93BF" aria-hidden="true"></span>61–71 · 143 yd²</li>
+              <li><span class="plots-dot" style="background:#C74D90" aria-hidden="true"></span>72–73 · 175 yd²</li>
+              <li><span class="plots-dot" style="background:#5FA86B" aria-hidden="true"></span>76–79 · 100 yd²</li>
+              <li><span class="plots-dot" style="background:#64BEDF" aria-hidden="true"></span>80–89 · ~103 yd²</li>
+              <li><span class="plots-dot" style="background:#F09EBC" aria-hidden="true"></span>Commercial</li>
+              <li class="plots-legend-status"><span class="plots-dot is-booked" aria-hidden="true"></span>Booked</li>
+              <li class="plots-legend-status"><span class="plots-dot is-sold" aria-hidden="true"></span>Sold</li>
+              <li class="plots-legend-status"><span class="plots-dot is-mortgage" aria-hidden="true"></span>Mortgage</li>
             </ul>
+          </div>
+
+          <figure class="plots-map reveal" id="plotsMap" aria-label="Interactive site plan">
+            <div class="plots-map-scroll">
+              <svg class="plots-map-svg" id="plotsMapSvg" viewBox="0 0 422 1004" role="group" aria-label="Madhavam plot layout — tap a plot for details"></svg>
+            </div>
             <span class="plots-compass" aria-hidden="true" title="North">
               <svg viewBox="0 0 40 40" width="36" height="36">
                 <circle cx="20" cy="20" r="18" fill="rgba(255,255,255,0.88)" stroke="#6a1b1b" stroke-width="1.2"/>
@@ -641,7 +649,7 @@
           <div class="plots-panel-head">
             <div>
               <h3 class="plots-panel-title">Plot Size Bands</h3>
-              <p class="plots-panel-note">Overview of available plots across different size ranges. Corner plots may differ in size (per brochure footnote).</p>
+              <p class="plots-panel-note">Sizes, tentative rate and amount/month from the project plot list. Tap a band or map plot for full details.</p>
             </div>
             <span class="plots-total">Total Plots: <strong>87</strong></span>
           </div>
@@ -653,66 +661,74 @@
                   <th scope="col">Plot Numbers</th>
                   <th scope="col">Size (sq yd)</th>
                   <th scope="col">No. of Plots</th>
-                  <th scope="col">Starting Price (per sq yd)</th>
-                  <th scope="col">Total Price (Approx.)</th>
+                  <th scope="col">Tentative Rate (per sq yd)</th>
+                  <th scope="col">Amount / Month (Approx.)</th>
                   <th class="plots-table-chevron" aria-hidden="true"></th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="plots-band-row" data-band="1-27" data-size="120" tabindex="0" role="button" aria-expanded="false">
-                  <td>01 – 27</td>
-                  <td>120</td>
-                  <td>27</td>
-                  <td class="plots-rate" data-size="120">On request</td>
-                  <td class="plots-total-price" data-size="120">On request</td>
+                <tr class="plots-band-row" data-band="1-27" data-size="119.65" tabindex="0" role="button" aria-expanded="false">
+                  <td>01 – 27 <span class="plots-band-note">(incl. 12A)</span></td>
+                  <td data-band-size>119.65</td>
+                  <td data-band-count>27</td>
+                  <td class="plots-rate" data-size="119.65">—</td>
+                  <td class="plots-amount-month" data-size="119.65">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
-                <tr class="plots-band-row" data-band="28-36" data-size="125" tabindex="0" role="button" aria-expanded="false">
+                <tr class="plots-band-row" data-band="28-36" data-size="126.61" tabindex="0" role="button" aria-expanded="false">
                   <td>28 – 36</td>
-                  <td>125</td>
-                  <td>9</td>
-                  <td class="plots-rate" data-size="125">On request</td>
-                  <td class="plots-total-price" data-size="125">On request</td>
+                  <td data-band-size>124.91 – 128.83</td>
+                  <td data-band-count>9</td>
+                  <td class="plots-rate" data-size="126.61">—</td>
+                  <td class="plots-amount-month" data-size="126.61">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
-                <tr class="plots-band-row" data-band="37-60" data-size="100" tabindex="0" role="button" aria-expanded="false">
+                <tr class="plots-band-row" data-band="37-60" data-size="100.5" tabindex="0" role="button" aria-expanded="false">
                   <td>37 – 60</td>
-                  <td>100</td>
-                  <td>24</td>
-                  <td class="plots-rate" data-size="100">On request</td>
-                  <td class="plots-total-price" data-size="100">On request</td>
+                  <td data-band-size>100.5 / 120.5</td>
+                  <td data-band-count>24</td>
+                  <td class="plots-rate" data-size="100.5">—</td>
+                  <td class="plots-amount-month" data-size="100.5">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
-                <tr class="plots-band-row" data-band="61-71" data-size="143" tabindex="0" role="button" aria-expanded="false">
+                <tr class="plots-band-row" data-band="61-71" data-size="143.35" tabindex="0" role="button" aria-expanded="false">
                   <td>61 – 71</td>
-                  <td>143</td>
-                  <td>11</td>
-                  <td class="plots-rate" data-size="143">On request</td>
-                  <td class="plots-total-price" data-size="143">On request</td>
+                  <td data-band-size>143.35 / 156.25 / 158.15</td>
+                  <td data-band-count>11</td>
+                  <td class="plots-rate" data-size="143.35">—</td>
+                  <td class="plots-amount-month" data-size="143.35">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
-                <tr class="plots-band-row" data-band="72-73" data-size="175" tabindex="0" role="button" aria-expanded="false">
+                <tr class="plots-band-row" data-band="72-73" data-size="175.85" tabindex="0" role="button" aria-expanded="false">
                   <td>72 – 73</td>
-                  <td>175</td>
-                  <td>2</td>
-                  <td class="plots-rate" data-size="175">On request</td>
-                  <td class="plots-total-price" data-size="175">On request</td>
+                  <td data-band-size>175.85</td>
+                  <td data-band-count>2</td>
+                  <td class="plots-rate" data-size="175.85">—</td>
+                  <td class="plots-amount-month" data-size="175.85">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
-                <tr class="plots-band-row" data-band="76-79" data-size="100" tabindex="0" role="button" aria-expanded="false">
+                <tr class="plots-band-row" data-band="76-79" data-size="100.45" tabindex="0" role="button" aria-expanded="false">
                   <td>76 – 79</td>
-                  <td>100</td>
-                  <td>4</td>
-                  <td class="plots-rate" data-size="100">On request</td>
-                  <td class="plots-total-price" data-size="100">On request</td>
+                  <td data-band-size>100.45</td>
+                  <td data-band-count>4</td>
+                  <td class="plots-rate" data-size="100.45">—</td>
+                  <td class="plots-amount-month" data-size="100.45">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
-                <tr class="plots-band-row" data-band="80-89" data-size="103" tabindex="0" role="button" aria-expanded="false">
+                <tr class="plots-band-row" data-band="80-89" data-size="103.1" tabindex="0" role="button" aria-expanded="false">
                   <td>80 – 89</td>
-                  <td>103</td>
-                  <td>10</td>
-                  <td class="plots-rate" data-size="103">On request</td>
-                  <td class="plots-total-price" data-size="103">On request</td>
+                  <td data-band-size>103.1 / 121.15</td>
+                  <td data-band-count>10</td>
+                  <td class="plots-rate" data-size="103.1">—</td>
+                  <td class="plots-amount-month" data-size="103.1">—</td>
+                  <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
+                </tr>
+                <tr class="plots-band-row plots-band-row--static" data-band="commercial" data-size="1105.88" tabindex="0" role="button" aria-expanded="false">
+                  <td>Commercial</td>
+                  <td data-band-size>1105.88</td>
+                  <td data-band-count>1</td>
+                  <td class="plots-rate" data-size="1105.88">—</td>
+                  <td class="plots-amount-month" data-size="1105.88">—</td>
                   <td class="plots-table-chevron" aria-hidden="true"><span class="plots-chevron"></span></td>
                 </tr>
               </tbody>
@@ -740,8 +756,8 @@
             </span>
           </a>
           <div class="plots-disclaimer">
-            <p>Indicative pricing only. Final prices, charges and availability are subject to change without prior notice.</p>
-            <p>Total 87 plots. Numbers 74 and 75 are not used in the brochure legend. Corner plots may differ in size (per brochure footnote).</p>
+            <p>Tentative rate and amount/month from the project plot list. Final prices, charges and availability are subject to change without prior notice.</p>
+            <p>Plot areas and dimensions from the project plot list. Map shows 87 residential plots plus commercial; list id 12A is shown on the plan. Numbers 74–75 appear in the list but not on the brochure site-plan legend. Mortgage marks follow the project plot list.</p>
           </div>
         </div>
       </div>
@@ -750,7 +766,7 @@
         <span class="plots-disclaimer-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
         </span>
-        <p>Indicative pricing only. Final prices, charges and availability are subject to change without prior notice. Total 87 plots. Numbers 74 and 75 are not used in the brochure legend. Corner plots may differ in size (per brochure footnote).</p>
+        <p>Tentative rate and amount/month from the project plot list. Final figures subject to change. Map shows 87 residential plots plus commercial (12A on plan; 74–75 in list only). Mortgage marks follow the plot list.</p>
       </div>
 
       <dialog class="plot-dialog" id="plotDialog" aria-labelledby="plotDialogTitle">
@@ -1112,7 +1128,7 @@
             </details>
             <details class="faq-item reveal">
               <summary>What plot sizes are available, and what is the current pricing?</summary>
-              <p>Madhavam offers 87 residential plots in brochure size bands of about 100, 103, 120, 125, 143 and 175 sq yd (plot numbers 01–73 and 76–89; 74 and 75 are unused in the legend). Corner plots may differ in size. Current rates per sq yd, totals and live availability are confirmed by Earth Waves Developers — see the <a href="#plots">Plots and Pricing</a> section on this page or enquire via <a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> <a href="tel:+918069982711">+91 80699 82711</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>.</p>
+              <p>Madhavam offers 87 residential plots in brochure size bands of about 100, 103, 120, 125, 143 and 175 sq yd (plot numbers 01–73 and 76–89; 74 and 75 are unused in the legend). Corner plots may differ in size. Tentative rate and amount/month from the project plot list are shown in the <a href="#plots">Plots and Pricing</a> section; final figures and live availability are confirmed by Earth Waves Developers — enquire via <a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> <a href="tel:+918069982711">+91 80699 82711</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>.</p>
             </details>
           </div>
         </div>
