@@ -2642,8 +2642,8 @@ p { margin: 0 0 1rem; }
 
 .footer-contact-title,
 .footer-quick-title {
-  display: none;
-  margin: 0 0 0.35rem;
+  display: block;
+  margin: 0 0 0.85rem;
   font-family: var(--serif);
   font-size: 1.85rem;
   font-weight: 600;
@@ -2665,7 +2665,7 @@ p { margin: 0 0 1rem; }
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.55rem;
+  gap: 0.95rem;
   justify-items: start;
   width: 100%;
 }
